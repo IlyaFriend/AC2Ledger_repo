@@ -11,9 +11,7 @@ export const SECRET = 'dummy'
 
 export default eventHandler(async (event) => {
   const { username, password } = await readBody<IRequestBody>(event)
-  const userData = await User.findOne({
-    username: username.toLowerCase()
-  })
+  const userData = await User.findOne({ username })
   if (!userData) {
     throw createError({
       statusCode: 403,

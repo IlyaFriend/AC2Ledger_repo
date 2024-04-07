@@ -22,7 +22,6 @@ export default defineEventHandler(async (event) => {
         message: 'User with given username already exists.'
       }
     } else {
-      console.log('Create user')
       const newUserData = await User.create({
         username,
         password,
