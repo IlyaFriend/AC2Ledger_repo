@@ -1,24 +1,50 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="login">
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-          Username
-        </label>
-        <input id="username" v-model="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Username">
+  <div class="flex items-center justify-center h-screen">
+    <div>
+      <div class="relative mt-12 sm:mt-16">
+        <h1 class="text-2xl font-medium tracking-tight text-center text-gray-900">
+          Sign in to account
+        </h1>
+        <p class="mt-3 text-lg text-center text-gray-600">
+          Don’t have an account?
+          <NuxtLink to="/signup" class="text-cyan-600">
+            Sign up
+          </NuxtLink>for a free trial.
+        </p>
       </div>
-      <div class="mb-6">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-          Password
-        </label>
-        <input id="password" v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="Password">
+      <div
+        class="flex-auto px-4 py-10 mt-10 -mx-4 bg-white shadow-2xl shadow-gray-900/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24"
+      >
+        <FormKit type="form" :actions="false" @submit="login">
+          <div class="grid grid-cols-2 gap-6 max-[420px]:grid-cols-1">
+            <FormKit
+              type="email"
+              name="email"
+              label="Email address"
+              validation="required|email"
+              auto-complete="email"
+              outer-class="col-span-full"
+            />
+            <FormKit
+              type="password"
+              name="password"
+              label="Password"
+              validation="required|length:8"
+              auto-complete="password"
+              outer-class="col-span-full"
+            />
+            <FormKit type="submit" input-class="w-full">
+              <span class="inline w-full text-center">Sign in to account</span>
+            </FormKit>
+            <FormKit type="button" input-class="w-full $remove:px-7 $remove:py-3">
+              <NuxtLink to="/signup" class="inline w-full py-3 text-center px-7">
+                Sign up
+              </NuxtLink>
+            </FormKit>
+          </div>
+        </FormKit>
       </div>
-      <div class="flex items-center justify-between">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-          Sign In
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
