@@ -4,7 +4,7 @@ export default defineNuxtConfig({
       mongoConnectionString: process.env.MONGO_CONNECTION_STRING
     }
   },
-  modules: ['../src/module.ts'],
+  modules: ['../src/module.ts', '@formkit/nuxt'],
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {
@@ -42,5 +42,8 @@ export default defineNuxtConfig({
     globalAppMiddleware: {
       isEnabled: true
     }
+  },
+  formkit: {
+    autoImport: true
   }
 })
