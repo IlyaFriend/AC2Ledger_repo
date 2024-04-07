@@ -1,30 +1,42 @@
-<script setup lang="ts">
-import { definePageMeta } from '#imports'
-definePageMeta({ auth: false })
-</script>
-
 <template>
-  <div>
-    <nuxt-link to="/">
-      -> manual login, logout, refresh button
-    </nuxt-link>
-    <br>
-    <nuxt-link to="/protected/globally">
-      -> globally protected page
-    </nuxt-link>
-    <br>
-    <nuxt-link to="/protected/locally">
-      -> locally protected page (only works if global middleware disabled)
-    </nuxt-link>
-    <br>
-    <nuxt-link to="/always-unprotected">
-      -> page that is always unprotected
-    </nuxt-link>
-    <br>
-    <nuxt-link to="/guest">
-      -> guest mode
-    </nuxt-link>
-    <br>
-    <div>select one of the above actions to get started.</div>
+  <div class="flex justify-center items-center h-screen">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" @submit.prevent="login">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+          Username
+        </label>
+        <input id="username" v-model="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Username">
+      </div>
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+          Password
+        </label>
+        <input id="password" v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="Password">
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+          Sign In
+        </button>
+      </div>
+    </form>
   </div>
 </template>
+
+<script setup lang="ts">
+import { definePageMeta, ref, useAuth } from '#imports'
+const {
+  signIn
+} = useAuth()
+definePageMeta({ auth: false })
+
+const username = ref('')
+const password = ref('')
+
+async function login () {
+  const res = signIn({
+    username: username.value,
+    password: password.value
+  })
+  console.log(res)
+}
+</script>
