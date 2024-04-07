@@ -1,5 +1,20 @@
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      mongoConnectionString: process.env.MONGO_CONNECTION_STRING
+    }
+  },
   modules: ['../src/module.ts'],
+  css: ['~/assets/css/main.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {}
+    }
+  },
+  nitro: {
+    plugins: ['~/server/index.ts']
+  },
   build: {
     transpile: ['jsonwebtoken']
   },
@@ -12,7 +27,8 @@ export default defineNuxtConfig({
         refresh: { path: '/refresh', method: 'post' }
       },
       pages: {
-        login: '/'
+        login: '/',
+        signup: '/signup'
       },
       token: {
         signInResponseTokenPointer: '/token/accessToken',

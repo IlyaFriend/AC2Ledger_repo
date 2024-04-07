@@ -18,9 +18,9 @@
     "prepack": "nuxt-module-build build",
     "build": "nuxi build",
     "lint": "eslint . --max-warnings=0",
-    "clean": "rm -rf playground-authjs/.nuxt playground-local/.nuxt playground-refresh/.nuxt dist .nuxt",
+    "clean": "rm -rf playground-authjs/.nuxt playground-local/.nuxt app/.nuxt dist .nuxt",
     "typecheck": "nuxi prepare playground-local && tsc --noEmit",
-    "typecheck:refresh": "nuxi prepare playground-refresh && tsc --noEmit",
+    "typecheck:refresh": "nuxi prepare app && tsc --noEmit",
     "dev:prepare": "nuxt-module-build build --stub"
   },
   "dependencies": {
