@@ -1,32 +1,40 @@
 import { createError, eventHandler, readBody } from 'h3'
-import { z } from 'zod'
 import { sign } from 'jsonwebtoken'
+import { User } from '~/server/dbModels'
+
+interface IRequestBody {
+  username: string;
+  password: string;
+}
 
 export const SECRET = 'dummy'
 
 export default eventHandler(async (event) => {
-  const result = z
-    .object({ username: z.string().min(1), password: z.literal('hunter2') })
-    .safeParse(await readBody(event))
-  if (!result.success) {
+  const { username, password } = await readBody<IRequestBody>(event)
+  const userData = await User.findOne({
+    username: username.toLowerCase()
+  })
+  if (!userData) {
     throw createError({
       statusCode: 403,
-      statusMessage: 'Unauthorized, hint: try `hunter2` as password'
+      statusMessage: 'User not found.'
+    })
+  }
+  const isPasswordValid = await userData.verifyPasswordSync(password)
+  if (!isPasswordValid) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'Wrong password.'
     })
   }
 
-  const expiresIn = 15
-
-  const { username } = result.data
-
   const user = {
-    username,
-    picture: 'https://github.com/nuxt.png',
-    name: 'User ' + username
+    username: userData.username,
+    // fullName: userData.fullName
   }
 
   const accessToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
-    expiresIn
+    expiresIn: 15
   })
   const refreshToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
     expiresIn: 60 * 60 * 24
