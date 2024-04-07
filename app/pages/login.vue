@@ -24,6 +24,9 @@
 
 <script setup lang="ts">
 import { definePageMeta, ref, useAuth } from '#imports'
+definePageMeta({
+  auth: false
+})
 const { signIn } = useAuth()
 definePageMeta({ auth: false })
 
