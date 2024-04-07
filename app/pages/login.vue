@@ -9,7 +9,7 @@
           Don’t have an account?
           <NuxtLink to="/signup" class="text-cyan-600">
             Sign up
-          </NuxtLink>for a free trial.
+          </NuxtLink>
         </p>
       </div>
       <div
@@ -18,11 +18,11 @@
         <FormKit type="form" :actions="false" @submit="login">
           <div class="grid grid-cols-2 gap-6 max-[420px]:grid-cols-1">
             <FormKit
-              type="email"
-              name="email"
-              label="Email address"
-              validation="required|email"
-              auto-complete="email"
+              type="text"
+              name="username"
+              label="Username"
+              validation="required"
+              auto-complete="username"
               outer-class="col-span-full"
             />
             <FormKit
@@ -56,13 +56,10 @@ definePageMeta({
 const { signIn } = useAuth()
 definePageMeta({ auth: false })
 
-const username = ref('')
-const password = ref('')
-
-function login () {
+function login (formData) {
   signIn({
-    username: username.value,
-    password: password.value
+    username: formData.username,
+    password: formData.password
   })
 }
 </script>
