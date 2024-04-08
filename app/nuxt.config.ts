@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         refresh: { path: '/refresh', method: 'post' }
       },
       pages: {
-        login: '/',
+        login: '/login',
         signup: '/signup'
       },
       token: {

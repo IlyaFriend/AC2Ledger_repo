@@ -23,9 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, ref, useAuth } from '#imports'
+import { ref, useAuth } from '#imports'
 const { signIn } = useAuth()
-definePageMeta({ auth: false })
 
 const username = ref('')
 const password = ref('')
