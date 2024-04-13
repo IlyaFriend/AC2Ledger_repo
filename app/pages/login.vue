@@ -49,17 +49,19 @@
 </template>
 
 <script setup lang="ts">
-import { definePageMeta, ref, useAuth } from '#imports'
+import { definePageMeta, useAuth } from '#imports'
 definePageMeta({
   auth: false
 })
 const { signIn } = useAuth()
 definePageMeta({ auth: false })
 
-function login (formData) {
+async function login (formData) {
   signIn({
     username: formData.username,
     password: formData.password
-  })
+  },
+  { callbackUrl: '/' }
+  )
 }
 </script>
