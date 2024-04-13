@@ -28,13 +28,15 @@ export default eventHandler(async (event) => {
 
   const user = {
     username: userData.username,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
     // fullName: userData.fullName
   }
 
-  const accessToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
+  const accessToken = sign({ ...user }, SECRET, {
     expiresIn: 15
   })
-  const refreshToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
+  const refreshToken = sign({ ...user }, SECRET, {
     expiresIn: 60 * 60 * 24
   })
 

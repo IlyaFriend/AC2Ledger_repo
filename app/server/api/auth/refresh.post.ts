@@ -3,17 +3,6 @@ import { sign, verify } from 'jsonwebtoken'
 
 export const SECRET = 'dummy'
 
-interface User {
-  username: string;
-  name: string;
-  picture: string;
-}
-
-interface JwtPayload extends User {
-  scope: Array<'test' | 'user'>;
-  exp: number;
-}
-
 export default eventHandler(async (event) => {
   const body = await readBody<{ refreshToken: string }>(event)
 
@@ -24,7 +13,7 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const decoded = verify(body.refreshToken, SECRET) as JwtPayload | undefined
+  const decoded = verify(body.refreshToken, SECRET)
 
   if (!decoded) {
     throw createError({
@@ -35,16 +24,16 @@ export default eventHandler(async (event) => {
 
   const expiresIn = 60 * 5 // 5 minutes
 
-  const user: User = {
+  const user = {
     username: decoded.username,
-    picture: decoded.picture,
-    name: decoded.name
+    firstName: decoded.firstName,
+    lastName: decoded.lastName,
   }
 
-  const accessToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
+  const accessToken = sign({ ...user }, SECRET, {
     expiresIn
   })
-  const refreshToken = sign({ ...user, scope: ['test', 'user'] }, SECRET, {
+  const refreshToken = sign({ ...user }, SECRET, {
     expiresIn: 60 * 60 * 24
   })
 
