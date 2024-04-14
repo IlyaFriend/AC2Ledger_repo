@@ -4,7 +4,7 @@ export default defineNuxtConfig({
       mongoConnectionString: process.env.MONGO_CONNECTION_STRING
     }
   },
-  modules: ['../src/module.ts', '@formkit/nuxt'],
+  modules: ['../src/module.ts', '@formkit/nuxt', 'nuxt-icon'],
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {

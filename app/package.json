@@ -32,6 +32,7 @@
     "mongoose-bcrypt": "1.11.0",
     "nodemon": "^3.1.0",
     "nuxt": "^3.10.1",
+    "nuxt-icon": "^0.6.10",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.3.3",
