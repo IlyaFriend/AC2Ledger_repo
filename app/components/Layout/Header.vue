@@ -14,6 +14,7 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
+        <a href="search/author" class="text-sm leading-6 text-gray-900 hover:text-primary-500"><Icon name="material-symbols-light:search" size="1.5em" />Search for a teacher</a>
         <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm leading-6 text-gray-900 hover:text-primary-500">{{ item.name }}</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -41,6 +42,7 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
+              <a href="search/author" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">Author Search<Icon name="material-symbols-light:search" size="1.5em" /></a>
               <a v-for="item in navigation" :key="item.name" :href="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">{{ item.name }}</a>
             </div>
             <div class="py-6">
@@ -64,19 +66,20 @@ import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { navigateTo, useAuth } from '#imports'
 
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' }
-]
-
 const mobileMenuOpen = ref(false)
 const {
   data,
   status,
   signOut
 } = useAuth()
+
+const navigation = [
+]
+
+if (status.value === 'authenticated') {
+  console.log(data.value)
+  navigation.unshift({ name: `${data.value.firstName} ${data.value.lastName}`, href: '/account'})
+}
 
 async function handleSignout () {
   await signOut({
