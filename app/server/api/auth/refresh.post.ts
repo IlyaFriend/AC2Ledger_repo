@@ -25,6 +25,7 @@ export default eventHandler(async (event) => {
   const expiresIn = 60 * 5 // 5 minutes
 
   const user = {
+    id: decoded._id,
     username: decoded.username,
     firstName: decoded.firstName,
     lastName: decoded.lastName,

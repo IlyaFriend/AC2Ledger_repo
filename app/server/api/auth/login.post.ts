@@ -18,6 +18,7 @@ export default eventHandler(async (event) => {
       statusMessage: 'User not found.'
     })
   }
+  console.log('userData', userData)
   const isPasswordValid = await userData.verifyPasswordSync(password)
   if (!isPasswordValid) {
     throw createError({
@@ -27,6 +28,7 @@ export default eventHandler(async (event) => {
   }
 
   const user = {
+    id: userData._id,
     username: userData.username,
     firstName: userData.firstName,
     lastName: userData.lastName,
