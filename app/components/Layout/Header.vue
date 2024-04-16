@@ -79,7 +79,7 @@ const navigation = [
 if (status.value === 'authenticated') {
   console.log(data.value)
   navigation.push({ name: 'Settings', href: '/settings' })
-  navigation.push({ name: `${data.value.firstName} ${data.value.lastName}`, href: '/account' })
+  navigation.push({ name: `${data.value.firstName} ${data.value.lastName}`, href: `/author/${data.value.id}` })
 }
 
 async function handleSignout () {
