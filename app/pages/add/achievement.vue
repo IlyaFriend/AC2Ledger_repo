@@ -2,7 +2,9 @@
   <div>
     <LayoutHeader />
     <h1>Add achievement</h1>
-    <DynamicForm />
+    <div class="flex justify-center">
+      <DynamicForm />
+    </div>
   </div>
 </template>
 
