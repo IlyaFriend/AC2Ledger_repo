@@ -6,7 +6,7 @@
         <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" type="text" :placeholder="field.placeholder" />
         <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" class="cursor-pointer hover:text-primary-600" @click="deleteFieldName(key)" />
       </div>
-      <button variant="info" class="mb-4 hover:text-primary-500" @click="addField">
+      <button type="button" variant="info" class="mb-4 hover:text-primary-500" @click="addField">
         <Icon name="material-symbols-light:add-circle-outline-rounded" size="2em" /> Add a new field
       </button>
     </FormKit>
@@ -23,16 +23,31 @@ const fields: Ref<any> = ref({
 const formData = ref({})
 const indexKey = ref(2)
 
-const submitForm = () => {
-  const achievementData: any = {}
+const submitForm = async () => {
+  let achievementData: any = {}
   for (const [key, value] of Object.entries(fields.value)) {
     achievementData[value?.name] = formData.value[key]
   }
-  console.log('result', achievementData)
+  const { title, type, ...details } = achievementData
+  achievementData = {
+    title,
+    type,
+    details
+  }
+  try {
+    await $fetch('/api/achievements/', {
+      method: 'POST',
+      body: {
+        data: achievementData
+      }
+    })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 const addField = () => {
-  const newField = { name: 'key', label: '', type: 'text', placeholder: '' }
+  const newField = { name: `key${indexKey.value - 1}`, label: '', type: 'text', placeholder: '' }
   fields.value[indexKey.value] = newField
   indexKey.value++
 }
