@@ -1,13 +1,13 @@
 <template>
-  <div>
+  <div class="w-[600px] border rounded p-4">
     <FormKit type="form" @submit="submitForm">
-      <div v-for="(field, key) in fields" :key="key" :label="field.label" class="flex justify-between items-center px-4 mb-4">
+      <div v-for="(field, key) in fields" :key="key" :label="field.label" class="flex justify-between items-center mb-4">
         <FormKit outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
         <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" type="text" :placeholder="field.placeholder" />
         <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" class="cursor-pointer hover:text-primary-600" @click="deleteFieldName(key)" />
       </div>
-      <button variant="info" @click="addField">
-        Add Field
+      <button variant="info" class="mb-4 hover:text-primary-500" @click="addField">
+        <Icon name="material-symbols-light:add-circle-outline-rounded" size="2em" /> Add a new field
       </button>
     </FormKit>
   </div>
@@ -17,14 +17,18 @@
 import { ref, type Ref } from 'vue'
 
 const fields: Ref<any> = ref({
-  0: { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title' }
+  0: { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title' },
+  1: { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type' }
 })
 const formData = ref({})
-const indexKey = ref(1)
+const indexKey = ref(2)
 
 const submitForm = () => {
-  console.log('Form data:', formData.value)
-  console.log('fields:', fields.value)
+  const achievementData: any = {}
+  for (const [key, value] of Object.entries(fields.value)) {
+    achievementData[value?.name] = formData.value[key]
+  }
+  console.log('result', achievementData)
 }
 
 const addField = () => {
