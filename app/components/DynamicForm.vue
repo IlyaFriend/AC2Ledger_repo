@@ -1,6 +1,9 @@
 <template>
   <div class="w-[600px] border rounded p-4">
-    <FormKit type="form" @submit="submitForm">
+    <FormKit type="form" submit-label="Add" @submit="submitForm">
+      <div class="text-xl font-semibold text-center mb-4">
+        Add an achievement
+      </div>
       <div v-for="(field, key) in fields" :key="key" :label="field.label" class="flex justify-between items-center mb-4">
         <FormKit outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
         <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" type="text" :placeholder="field.placeholder" />
