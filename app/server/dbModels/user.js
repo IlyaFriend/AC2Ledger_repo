@@ -17,10 +17,6 @@ const SchemaMain = new Schema({
   patronymic: String,
   courses: [String],
   externalProfiles: Object,
-  departments: [{
-    type: Schema.Types.ObjectId,
-    ref: 'department'
-  }],
   achievements: [{
     type: Schema.Types.ObjectId,
     ref: 'achievement'
