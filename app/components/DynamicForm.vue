@@ -1,8 +1,8 @@
 <template>
   <div class="w-[600px] border rounded p-4">
     <FormKit type="form" submit-label="Add" @submit="submitForm">
-      <div class="text-xl font-semibold text-center mb-4">
-        Add an achievement
+      <div v-if="title" class="text-xl font-semibold text-center mb-4">
+        {{ title }}
       </div>
       <div v-for="(field, key) in fields" :key="key" :label="field.label" class="flex justify-between items-center mb-4">
         <FormKit outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
@@ -18,7 +18,13 @@
 
 <script setup lang="ts">
 import { ref, type Ref } from 'vue'
+import { useAuth } from '#imports'
 
+defineProps(['title'])
+const emits = defineEmits(['on-submit'])
+const {
+  data
+} = useAuth()
 const fields: Ref<any> = ref({
   0: { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title' },
   1: { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type' }
@@ -26,7 +32,7 @@ const fields: Ref<any> = ref({
 const formData = ref({})
 const indexKey = ref(2)
 
-const submitForm = async () => {
+const submitForm = () => {
   let achievementData: any = {}
   for (const [key, value] of Object.entries(fields.value)) {
     achievementData[value?.name] = formData.value[key]
@@ -35,15 +41,12 @@ const submitForm = async () => {
   achievementData = {
     title,
     type,
-    details
+    details,
+    users: [data.value.id],
+    createdBy: data.value.id
   }
   try {
-    await $fetch('/api/achievements/', {
-      method: 'POST',
-      body: {
-        data: achievementData
-      }
-    })
+    emits('on-submit', achievementData)
   } catch (e) {
     console.log(e)
   }
