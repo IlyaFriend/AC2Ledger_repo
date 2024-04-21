@@ -17,7 +17,19 @@ const SchemaMain = new Schema({
     type: Date,
     default: () => Date.now()
   },
-  details: { type: mongoose.Schema.Types.Mixed }
+  details: {
+    type: mongoose.Schema.Types.Mixed
+  },
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 export default SchemaMain
