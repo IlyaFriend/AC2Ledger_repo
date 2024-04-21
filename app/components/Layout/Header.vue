@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white">
+  <header class="bg-white shadow-md">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <a href="#" class="-m-1.5 p-1.5">
@@ -14,7 +14,7 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="search/author" class="text-sm leading-6 text-gray-900 hover:text-primary-500"><Icon name="material-symbols-light:search" size="1.5em" />Search for a teacher</a>
+        <a href="search/teacher" class="text-sm leading-6 text-gray-900 hover:text-primary-500"><Icon name="material-symbols-light:search" size="1.5em" />Search for a teacher</a>
         <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm leading-6 text-gray-900 hover:text-primary-500">{{ item.name }}</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -42,7 +42,7 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <a href="search/author" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">Author Search<Icon name="material-symbols-light:search" size="1.5em" /></a>
+              <a href="search/teacher" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">Teacher Search<Icon name="material-symbols-light:search" size="1.5em" /></a>
               <a v-for="item in navigation" :key="item.name" :href="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">{{ item.name }}</a>
             </div>
             <div class="py-6">
@@ -79,7 +79,7 @@ const navigation = [
 if (status.value === 'authenticated') {
   console.log(data.value)
   navigation.push({ name: 'Settings', href: '/settings' })
-  navigation.push({ name: `${data.value.firstName} ${data.value.lastName}`, href: `/author/${data.value.id}` })
+  navigation.push({ name: `${data.value.firstName} ${data.value.lastName}`, href: `/teacher/${data.value.id}` })
 }
 
 async function handleSignout () {
