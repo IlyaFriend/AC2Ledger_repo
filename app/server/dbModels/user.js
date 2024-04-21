@@ -16,11 +16,7 @@ const SchemaMain = new Schema({
   },
   patronymic: String,
   courses: [String],
-  externalProfiles: Object,
-  achievements: [{
-    type: Schema.Types.ObjectId,
-    ref: 'achievement'
-  }]
+  externalProfiles: Object
 })
 
 SchemaMain.methods.verifyPasswordSync = function (password) {
