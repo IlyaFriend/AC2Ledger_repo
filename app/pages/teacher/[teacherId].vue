@@ -11,7 +11,20 @@
     <div>
       <!-- Content -->
       <div v-if="+currentTab === 0">
-        achievements
+        <div v-if="!errorAchievements">
+          <StackedInfoList
+            :author-mode="user.id === teacherId"
+            :items="achievements?.map(item => {
+              return {
+                title: item.title,
+                subtitle: item.type
+              }
+            })"
+          />
+        </div>
+        <div v-else>
+          Error occured. Pleaase, try later.
+        </div>
       </div>
       <div v-if="+currentTab === 1">
         courses
@@ -28,7 +41,9 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { ref, useFetch } from '#imports'
+import { ref, useAuth, useFetch } from '#imports'
+
+const { data: user } = useAuth()
 
 const route = useRoute()
 
@@ -44,4 +59,7 @@ const menuTabs = [
 ]
 
 const currentTab = ref(0)
+
+/// /////////  fetches  /////////////////
+const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?createdBy=${teacher.value?._id}`)
 </script>
