@@ -21,7 +21,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAuth } from '#imports'
 
 const props = defineProps({
   title: {
@@ -43,32 +42,18 @@ const props = defineProps({
   }
 })
 const emits = defineEmits(['on-submit'])
-const {
-  data
-} = useAuth()
+
 const formData = ref({})
 const indexKey = ref(2)
 
 const fieldsRef = ref(props.fields)
 
 const submitForm = () => {
-  let achievementData: any = {}
+  const result: any = {}
   for (const [key, value] of Object.entries(fieldsRef.value)) {
-    achievementData[value?.name] = formData.value[key]
+    result[value?.name] = formData.value[key]
   }
-  const { title, type, ...details } = achievementData
-  achievementData = {
-    title,
-    type,
-    details,
-    users: [data.value.id],
-    createdBy: data.value.id
-  }
-  try {
-    emits('on-submit', achievementData)
-  } catch (e) {
-    console.log(e)
-  }
+  emits('on-submit', result)
 }
 
 const addField = () => {
