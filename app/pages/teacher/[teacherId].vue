@@ -12,6 +12,7 @@
       <!-- Content -->
       <div v-if="+currentTab === 0">
         <div v-if="!errorAchievements">
+          <AddButton title="Add a new achievement" class="my-4" />
           <StackedInfoList
             :author-mode="user.id === teacherId"
             :items="achievements?.map(item => {
