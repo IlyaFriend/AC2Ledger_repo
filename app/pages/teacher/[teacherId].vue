@@ -12,7 +12,16 @@
       <!-- Content -->
       <div v-if="+currentTab === 0">
         <div v-if="!errorAchievements">
-          <AddButton title="Add a new achievement" class="my-4" />
+          <AddButton title="Add a new achievement" class="my-4" @click="setIsAddAchievementDialogOpen(true)" />
+          <DialogDefault
+            v-if="isAddAchievementDialogOpen"
+            :open="isAddAchievementDialogOpen"
+            title="Add achievement"
+            description="Include background context on the achievement, such as collaborators and supporting data."
+            @close="() => setIsAddAchievementDialogOpen(false)"
+          >
+            <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => addAchievement(data)" />
+          </DialogDefault>
           <StackedInfoList
             :author-mode="user.id === teacherId"
             :items="achievements?.map(item => {
@@ -61,6 +70,29 @@ const menuTabs = [
 
 const currentTab = ref(0)
 
+const isAddAchievementDialogOpen = ref(false)
+
+function setIsAddAchievementDialogOpen (value: boolean) {
+  isAddAchievementDialogOpen.value = value
+}
+
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?createdBy=${teacher.value?._id}`)
+/// //////////////////////////////////////
+
+async function addAchievement (inputData) {
+  let achievementData = { ...inputData }
+  const { title, type, ...details } = achievementData
+  achievementData = {
+    title,
+    type,
+    details,
+    users: [user.value.id],
+    createdBy: user.value.id
+  }
+  console.log('addAchievement', inputData)
+  const createdAchievement = await createAchievement(achievementData)
+  achievements.value?.push(createdAchievement)
+}
+
 </script>
