@@ -52,9 +52,13 @@
 </template>
 
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { Menu, MenuButton, MenuItem, MenuItems, provideUseId } from '@headlessui/vue'
 import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import type { PropType } from 'vue'
+
+import { useId } from '#imports'
+
+provideUseId(() => useId())
 
 type Item = {
   id: string,
