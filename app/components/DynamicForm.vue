@@ -1,6 +1,6 @@
 <template>
   <div class="w-full border rounded p-4">
-    <FormKit type="form" submit-label="Add" @submit="submitForm">
+    <FormKit type="form" :submit-label="submitLabel" @submit="submitForm">
       <div v-if="title" class="text-xl font-semibold text-center mb-4">
         {{ title }}
       </div>
@@ -27,6 +27,10 @@ const props = defineProps({
   title: {
     type: String,
     default: ''
+  },
+  submitLabel: {
+    type: String,
+    default: 'Submit'
   },
   fields: {
     type: Object,
