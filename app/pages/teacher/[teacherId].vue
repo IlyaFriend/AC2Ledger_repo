@@ -83,7 +83,7 @@ function setIsAddAchievementDialogOpen (value: boolean) {
 }
 
 /// /////////  fetches  /////////////////
-const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?createdBy=${teacher.value?._id}`)
+const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
 /// //////////////////////////////////////
 
 async function addAchievement (inputData) {
