@@ -30,18 +30,21 @@
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95"
           >
-            <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+            <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
               <MenuItem v-slot="{ active }">
-                <a
-                  href="#"
-                  :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                >View profile<span class="sr-only">, {{ item.name }}</span></a>
+                <button
+                  :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
+                >
+                  Update
+                </button>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a
-                  href="#"
-                  :class="[active ? 'bg-gray-50' : '', 'block px-3 py-1 text-sm leading-6 text-gray-900']"
-                >Message<span class="sr-only">, {{ item.name }}</span></a>
+                <button
+                  :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
+                  @click="handleDeleteItem(item.id)"
+                >
+                  Delete
+                </button>
               </MenuItem>
             </MenuItems>
           </transition>
@@ -49,6 +52,13 @@
       </div>
     </li>
   </ul>
+  <DialogAction
+    ref="deleteRef"
+    title="Delete item?"
+    description="This is a permanent action."
+    submit-label="Yes"
+    :callback="emits('delete-event', deletedId)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -73,7 +83,7 @@ const props = defineProps({
     default: false
   },
   items: {
-    type: Array as unknown as PropType<Item>,
+    type: Array as unknown as PropType<Item[]>,
     default: () => []
   }
   // title: {
@@ -89,6 +99,8 @@ const props = defineProps({
   //   default: ''
   // }
 })
+
+const emits = defineEmits(['delete-event'])
 
 const people = [
   {
@@ -150,4 +162,15 @@ const people = [
     lastSeen: null
   }
 ]
+
+const deleteRef = ref(null)
+
+const deletedId: globalThis.Ref<string | null> = ref(null)
+
+function handleDeleteItem (itemId: string) {
+  console.log(171, itemId)
+  deletedId.value = itemId
+  deleteRef.value?.openModal()
+  console.log(174, deletedId.value)
+}
 </script>
