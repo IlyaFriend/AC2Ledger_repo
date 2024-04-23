@@ -46,7 +46,24 @@ const emits = defineEmits(['on-submit'])
 const formData = ref({})
 const indexKey = ref(2)
 
-const fieldsRef = ref(props.fields)
+const fieldsRef = ref(Object.values(props.fields).map((field) => {
+  return {
+    ...field,
+    label: field.label || field.name,
+    type: field.type || 'text',
+    placeholder: field.placeholder || `Enter ${field.name}`,
+    immutable: field.immutable || false
+  }
+}))
+
+for (const key in props.fields) {
+  if (Object.prototype.hasOwnProperty.call(props.fields, key)) {
+    const field = props.fields[key]
+    if (field.value) {
+      formData.value[key] = field.value
+    }
+  }
+}
 
 const submitForm = () => {
   const result: any = {}
