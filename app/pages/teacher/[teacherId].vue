@@ -33,7 +33,7 @@
                 subtitle: item.type
               }
             })"
-            @delete-event="async id => await handleDelete(id)"
+            @delete-event="id => handleDelete(id)"
           />
         </div>
         <div v-else>
@@ -105,5 +105,6 @@ async function addAchievement (inputData) {
 
 async function handleDelete (id: string) {
   await deleteAchievement(id)
+  achievements.value = achievements.value?.filter(achievement => achievement._id !== id)
 }
 </script>

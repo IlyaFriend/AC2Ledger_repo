@@ -57,7 +57,7 @@
     title="Delete item?"
     description="This is a permanent action."
     submit-label="Yes"
-    :callback="emits('delete-event', deletedId)"
+    :callback="emitDeleteItem"
   />
 </template>
 
@@ -109,5 +109,9 @@ const deletedId: globalThis.Ref<string | null> = ref(null)
 function handleDeleteItem (itemId: string) {
   deletedId.value = itemId
   deleteRef.value?.openModal()
+}
+
+function emitDeleteItem () {
+  emits('delete-event', deletedId.value)
 }
 </script>
