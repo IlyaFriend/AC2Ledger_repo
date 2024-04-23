@@ -29,7 +29,6 @@
               label="First name"
               validation="required"
               auto-complete="firstName"
-              outer-class="col-span-full"
             />
             <FormKit
               type="text"
@@ -37,7 +36,6 @@
               label="Last name"
               validation="required"
               auto-complete="lastName"
-              outer-class="col-span-full"
             />
             <FormKit
               type="password"
@@ -45,14 +43,12 @@
               label="Password"
               validation="required|length:8"
               auto-complete="password"
-              outer-class="col-span-full"
             />
             <FormKit
               type="password"
               name="password_confirm"
               label="Confirm password"
               validation="required|confirm"
-              outer-class="col-span-full"
             />
             <FormKit type="submit" input-class="w-full">
               <span class="inline w-full text-center">Sign up</span>
@@ -72,7 +68,8 @@
 <script setup lang="ts">
 import { definePageMeta } from '#imports'
 definePageMeta({
-  auth: false
+  auth: false,
+  layout: false
 })
 
 async function signup (formData) {

@@ -51,12 +51,12 @@
 <script setup lang="ts">
 import { definePageMeta, useAuth } from '#imports'
 definePageMeta({
-  auth: false
+  auth: false,
+  layout: false
 })
 const { signIn } = useAuth()
-definePageMeta({ auth: false })
 
-async function login (formData) {
+function login (formData) {
   signIn({
     username: formData.username,
     password: formData.password
