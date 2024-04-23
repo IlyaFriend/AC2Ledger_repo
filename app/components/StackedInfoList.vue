@@ -94,18 +94,6 @@ defineProps({
     type: Array as unknown as PropType<Item[]>,
     default: () => []
   }
-  // title: {
-  //   type: String,
-  //   default: ''
-  // },
-  // subtitle: {
-  //   type: String,
-  //   default: ''
-  // },
-  // secondarySubtitle: {
-  //   type: String,
-  //   default: ''
-  // }
 })
 
 const emits = defineEmits(['delete-event', 'update-event'])
