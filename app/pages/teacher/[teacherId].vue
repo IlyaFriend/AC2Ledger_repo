@@ -12,18 +12,20 @@
       <!-- Content -->
       <div v-if="+currentTab === 0">
         <div v-if="!errorAchievements">
-          <AddButton title="Add a new achievement" class="my-4" @click="setIsAddAchievementDialogOpen(true)" />
-          <DialogDefault
-            v-if="isAddAchievementDialogOpen"
-            :open="isAddAchievementDialogOpen"
-            title="Add achievement"
-            description="Include background context on the achievement, such as collaborators and supporting data."
-            @close="() => setIsAddAchievementDialogOpen(false)"
-          >
-            <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => addAchievement(data)" />
-          </DialogDefault>
+          <div v-if="authorMode">
+            <AddButton title="Add a new achievement" class="my-4" @click="setIsAddAchievementDialogOpen(true)" />
+            <DialogDefault
+              v-if="isAddAchievementDialogOpen"
+              :open="isAddAchievementDialogOpen"
+              title="Add achievement"
+              description="Include background context on the achievement, such as collaborators and supporting data."
+              @close="() => setIsAddAchievementDialogOpen(false)"
+            >
+              <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => addAchievement(data)" />
+            </DialogDefault>
+          </div>
           <StackedInfoList
-            :author-mode="user.id === teacherId"
+            :author-mode="authorMode"
             :items="achievements?.map(item => {
               return {
                 title: item.title,
@@ -60,6 +62,10 @@ const route = useRoute()
 const { teacherId } = route.params
 
 const { data: teacher } = await useFetch(`/api/users/${teacherId}`)
+
+const authorMode = computed(() => {
+  return user.value.id === teacherId
+})
 
 const menuTabs = [
   { name: 'achievements', href: '#', current: true },
