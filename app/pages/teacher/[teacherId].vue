@@ -13,13 +13,11 @@
       <div v-if="+currentTab === 0">
         <div v-if="!errorAchievements">
           <div v-if="authorMode">
-            <AddButton title="Add a new achievement" class="my-4" @click="setIsAddAchievementDialogOpen(true)" />
+            <AddButton title="Add a new achievement" class="my-4" @click="openAddAchievementDialogOpen" />
             <DialogDefault
-              v-if="isAddAchievementDialogOpen"
-              :open="isAddAchievementDialogOpen"
+              ref="addAchievementDialog"
               title="Add achievement"
               description="Include background context on the achievement, such as collaborators and supporting data."
-              @close="() => setIsAddAchievementDialogOpen(false)"
             >
               <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => addAchievement(data)" />
             </DialogDefault>
@@ -76,13 +74,9 @@ const menuTabs = [
   { name: 'contact', href: '#', current: false }
 ]
 
+const addAchievementDialog = ref(null)
+
 const currentTab = ref(0)
-
-const isAddAchievementDialogOpen = ref(false)
-
-function setIsAddAchievementDialogOpen (value: boolean) {
-  isAddAchievementDialogOpen.value = value
-}
 
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
@@ -106,5 +100,9 @@ async function addAchievement (inputData) {
 async function handleDelete (id: string) {
   await deleteAchievement(id)
   achievements.value = achievements.value?.filter(achievement => achievement._id !== id)
+}
+
+function openAddAchievementDialogOpen () {
+  addAchievementDialog.value?.openModal()
 }
 </script>

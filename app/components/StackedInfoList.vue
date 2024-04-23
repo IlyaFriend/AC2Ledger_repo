@@ -34,6 +34,7 @@
               <MenuItem v-slot="{ active }">
                 <button
                   :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
+                  @click="handleUpdateItem(item.id)"
                 >
                   Update
                 </button>
@@ -54,11 +55,18 @@
   </ul>
   <DialogAction
     ref="deleteRef"
-    title="Delete item?"
+    title="Delete"
     description="This is a permanent action."
     submit-label="Yes"
     :callback="emitDeleteItem"
   />
+  <DialogDefault
+    ref="updateRef"
+    title="Add achievement"
+    description="Include background context on the achievement, such as collaborators and supporting data."
+  >
+    <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => console.log(data)" />
+  </DialogDefault>
 </template>
 
 <script setup lang="ts">
@@ -100,18 +108,26 @@ defineProps({
   // }
 })
 
-const emits = defineEmits(['delete-event'])
+const emits = defineEmits(['delete-event', 'update-event'])
 
 const deleteRef = ref(null)
+const updateRef = ref(null)
 
-const deletedId: globalThis.Ref<string | null> = ref(null)
+const activeItemId: globalThis.Ref<string | null> = ref(null)
 
 function handleDeleteItem (itemId: string) {
-  deletedId.value = itemId
+  activeItemId.value = itemId
   deleteRef.value?.openModal()
+}
+function handleUpdateItem (itemId: string) {
+  activeItemId.value = itemId
+  updateRef.value?.openModal()
 }
 
 function emitDeleteItem () {
-  emits('delete-event', deletedId.value)
+  emits('delete-event', activeItemId.value)
+}
+function emitUpdateItem () {
+  emits('update-event', activeItemId.value)
 }
 </script>
