@@ -28,10 +28,12 @@
             :author-mode="authorMode"
             :items="achievements?.map(item => {
               return {
+                id: item._id,
                 title: item.title,
                 subtitle: item.type
               }
             })"
+            @delete-event="async id => await handleDelete(id)"
           />
         </div>
         <div v-else>
@@ -101,4 +103,7 @@ async function addAchievement (inputData) {
   achievements.value?.push(createdAchievement)
 }
 
+async function handleDelete (id: string) {
+  await deleteAchievement(id)
+}
 </script>
