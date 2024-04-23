@@ -85,7 +85,6 @@ function openModal () {
 }
 
 function handleAction () {
-    console.log('callback DialogAction')
   if (props.callback) {
     props.callback()
   }
