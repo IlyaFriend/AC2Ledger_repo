@@ -8,7 +8,7 @@
         <FormKit v-if="!field.immutable" outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
         <span v-else class="!max-w-[17%] w-full px-3">{{ field.name }}</span>
         <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" type="text" :placeholder="field.placeholder" />
-        <button :disabled="field.immutable" class="cursor-pointer hover:text-primary-600 disabled:text-gray-300 disabled:cursor-default" @click="deleteFieldName(key)">
+        <button type="button" :disabled="field.immutable" class="cursor-pointer hover:text-primary-600 disabled:text-gray-300 disabled:cursor-default" @click="deleteFieldName(key)">
           <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
         </button>
       </div>
@@ -54,7 +54,10 @@ const fieldsRef = ref(Object.values(props.fields).map((field) => {
     placeholder: field.placeholder || `Enter ${field.name}`,
     immutable: field.immutable || false
   }
-}))
+}).reduce((acc, item, index) => {
+  acc[index] = item
+  return acc
+}, {}))
 
 for (const key in props.fields) {
   if (Object.prototype.hasOwnProperty.call(props.fields, key)) {
@@ -83,7 +86,7 @@ const changeFieldName = (key: string, newFieldName: string) => {
   fieldsRef.value[key].name = newFieldName
 }
 
-const deleteFieldName = (key: string) => {
-  delete fieldsRef.value[key]
+const deleteFieldName = (key: string | number) => {
+  delete fieldsRef.value[+key]
 }
 </script>
