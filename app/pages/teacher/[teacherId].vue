@@ -24,15 +24,20 @@
           </div>
           <StackedInfoList
             :author-mode="authorMode"
-            :items="achievements?.map(item => {
+            :items-displayed="achievements?.map(item => {
               return {
                 id: item._id,
                 title: item.title,
                 subtitle: item.type
               }
             })"
+            :items="achievements"
             @delete-event="id => handleDelete(id)"
-          />
+          >
+            <template #update-form="scope">
+              <AchievementUpdateForm :item="scope.item" />
+            </template>
+          </StackedInfoList>
         </div>
         <div v-else>
           Error occured. Pleaase, try later.
