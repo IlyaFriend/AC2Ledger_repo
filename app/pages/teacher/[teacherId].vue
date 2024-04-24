@@ -35,12 +35,12 @@
             @delete-event="id => handleDelete(id)"
           >
             <template #update-form="scope">
-              <AchievementUpdateForm :item="scope.item" />
+              <AchievementUpdateForm :item="scope.item" @on-update="achievement => handleUpdateAchievement(achievement)" />
             </template>
           </StackedInfoList>
         </div>
         <div v-else>
-          Error occured. Pleaase, try later.
+          Error occured. Please, try later.
         </div>
       </div>
       <div v-if="+currentTab === 1">
@@ -107,4 +107,15 @@ async function handleDelete (id: string) {
 function openAddAchievementDialogOpen () {
   addAchievementDialog.value?.openModal()
 }
+
+function handleUpdateAchievement (achievement) {
+  const index = achievements.value?.findIndex(a => a._id === achievement._id)
+
+  if (index !== -1) {
+    achievements.value?.splice(index, 1, achievement)
+  } else {
+    console.error('Error: achievement not found.')
+  }
+}
+
 </script>
