@@ -88,14 +88,11 @@ const { data: achievements, error: errorAchievements } = await useFetch(`/api/ac
 /// //////////////////////////////////////
 
 async function addAchievement (inputData) {
-  let achievementData = { ...inputData }
-  const { title, type, ...details } = achievementData
-  achievementData = {
+  const { title, type, ...details } = inputData
+  const achievementData = {
     title,
     type,
-    details,
-    users: [user.value.id],
-    createdBy: user.value.id
+    details
   }
   console.log('addAchievement', inputData)
   const createdAchievement = await createAchievement(achievementData)
