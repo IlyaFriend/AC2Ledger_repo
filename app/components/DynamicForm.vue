@@ -44,12 +44,12 @@ const props = defineProps({
 const emits = defineEmits(['on-submit'])
 
 const formData = ref({})
-const indexKey = ref(2)
+const indexKey = ref(Object.keys(props.fields).length)
 
 const fieldsRef = ref(Object.values(props.fields).map((field) => {
   return {
     ...field,
-    label: field.label || field.name,
+    label: field.label || field.name || field.title,
     type: field.type || 'text',
     placeholder: field.placeholder || `Enter ${field.name}`,
     immutable: field.immutable || false
