@@ -1,6 +1,6 @@
 <template>
   <ul role="list" class="divide-y divide-gray-100">
-    <li v-for="item in items" :key="item.id" class="flex justify-between gap-x-6 py-5">
+    <li v-for="item in itemsDisplayed" :key="item.id" class="flex justify-between gap-x-6 py-5">
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
           <p class="text-sm font-semibold leading-6 text-gray-900 cursor-default hover:underline">
@@ -65,7 +65,7 @@
     title="Add achievement"
     description="Include background context on the achievement, such as collaborators and supporting data."
   >
-    <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => console.log(data)" />
+    <slot name="update-form" :item="items.find(item => item._id === activeItemId)" />
   </DialogDefault>
 </template>
 
@@ -82,7 +82,7 @@ type Item = {
   id: string,
   title: string,
   subtitle: string,
-  secondarySubtitle: string,
+  secondarySubtitle?: string,
 }
 
 defineProps({
@@ -90,8 +90,12 @@ defineProps({
     type: Boolean,
     default: false
   },
-  items: {
+  itemsDisplayed: {
     type: Array as unknown as PropType<Item[]>,
+    default: () => []
+  },
+  items: {
+    type: Array,
     default: () => []
   }
 })
