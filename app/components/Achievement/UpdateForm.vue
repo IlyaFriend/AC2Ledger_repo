@@ -16,6 +16,7 @@ const props = defineProps({
     required: true
   }
 })
+const emits = defineEmits(['on-update'])
 
 const achievementFields = { ...props.item }
 const fieldsArray = []
@@ -48,8 +49,6 @@ const fields = fieldsArray.reduce((acc, item, index) => {
   return acc
 }, {})
 
-console.log(fields)
-
 async function handleUpdateAchievement(data) {
   const { title, type, ...details } = data
   const achievementData = {
@@ -59,7 +58,6 @@ async function handleUpdateAchievement(data) {
   }
 
   const response = await updateAchievement(props.item._id, achievementData)
-  console.log(response)
+  emits('on-update', response)
 }
-// TODO: on-submit -> update the achievement
 </script>
