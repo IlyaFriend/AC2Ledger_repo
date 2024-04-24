@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   console.log(`*** PUT /api/achievements/${id} ***`)
   const { data } = await readBody<IRequestBody>(event)
   try {
-    const updatedAchievement = await Achievement.findByIdAndUpdate(id, data)
+    const updatedAchievement = await Achievement.findByIdAndUpdate(id, data, { new: true })
     console.log('updated achivement:', updatedAchievement, '\n')
     return updatedAchievement
     // return null
