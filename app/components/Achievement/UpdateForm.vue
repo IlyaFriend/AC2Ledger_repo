@@ -3,11 +3,13 @@
     submit-label="Update"
     class="mt-4"
     :fields="fields"
-    @on-submit="data => console.log(data)"
+    @on-submit="data => handleUpdateAchievement(data)"
   />
 </template>
 
 <script setup lang="ts">
+import { updateAchievement } from '~/composables/achievements'
+
 const props = defineProps({
   item: {
     type: Object,
@@ -19,12 +21,10 @@ const achievementFields = { ...props.item }
 const fieldsArray = []
 
 // remove non-public fields
-delete achievementFields?._id
-delete achievementFields?.__v
-delete achievementFields?.createdAt
-delete achievementFields?.updatedAt
-delete achievementFields?.createdBy
-delete achievementFields?.users // TODO: remove this after adding other users to achievements
+const nonPublicFields = ['_id', '__v', 'createdAt', 'updatedAt', 'createdBy', 'users'] // TODO: remove users after adding other users to achievements
+nonPublicFields.forEach(field => {
+  delete achievementFields[field]
+})
 
 for (const [key, value] of Object.entries(achievementFields)) {
   if (key === 'details') {
@@ -50,5 +50,16 @@ const fields = fieldsArray.reduce((acc, item, index) => {
 
 console.log(fields)
 
+async function handleUpdateAchievement(data) {
+  const { title, type, ...details } = data
+  const achievementData = {
+    title,
+    type,
+    details
+  }
+
+  const response = await updateAchievement(props.item._id, achievementData)
+  console.log(response)
+}
 // TODO: on-submit -> update the achievement
 </script>
