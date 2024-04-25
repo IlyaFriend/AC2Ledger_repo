@@ -7,6 +7,14 @@ export default defineEventHandler(async (event) => {
 
   try {
     const fetchedAchievement = await Achievement.findById(id)
+      .populate({
+        path: 'users',
+        select: keysToStringExclude('_id')
+      })
+      .populate({
+        path: 'createdBy',
+        select: keysToStringExclude('_id')
+      })
     console.log('fetched achivement:', fetchedAchievement, '\n')
     return fetchedAchievement
   } catch (err) {
