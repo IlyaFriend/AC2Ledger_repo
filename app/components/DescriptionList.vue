@@ -10,7 +10,7 @@
     </div>
     <div class="mt-6 border-t border-gray-100">
       <dl class="divide-y divide-gray-100">
-        <div v-for="(value, key) in item" :key="key" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div v-for="(value, key) in item" :key="key" :class="dlClass" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm font-medium leading-6 text-gray-900">
             {{ key }}
           </dt>
@@ -36,6 +36,10 @@ defineProps({
   item: {
     type: Object,
     default: () => {}
+  },
+  dlClass: {
+    type: String,
+    default: ''
   }
 })
 </script>
