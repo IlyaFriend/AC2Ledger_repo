@@ -28,7 +28,8 @@
               return {
                 id: item._id,
                 title: item.title,
-                subtitle: item.type
+                subtitle: item.type,
+                link: `/achievement/${item._id}`
               }
             })"
             :items="achievements"
