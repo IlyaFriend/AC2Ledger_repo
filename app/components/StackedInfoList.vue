@@ -3,7 +3,10 @@
     <li v-for="item in itemsDisplayed" :key="item.id" class="flex justify-between gap-x-6 py-5">
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
-          <p class="text-sm font-semibold leading-6 text-gray-900 cursor-default hover:underline">
+          <NuxtLink v-if="item.link" :to="item.link" class="text-sm font-semibold leading-6 text-gray-900 hover:underline">
+            {{ item.title }}
+          </NuxtLink>
+          <p v-else class="text-sm font-semibold leading-6 text-gray-900 cursor-default hover:underline">
             {{ item.title }}
           </p>
           <p class="mt-1 flex text-xs leading-5 text-gray-500">
@@ -83,6 +86,7 @@ type Item = {
   title: string,
   subtitle: string,
   secondarySubtitle?: string,
+  link?: string,
 }
 
 defineProps({
@@ -97,7 +101,7 @@ defineProps({
   items: {
     type: Array,
     default: () => []
-  }
+  },
 })
 
 const emits = defineEmits(['delete-event', 'update-event'])
