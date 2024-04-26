@@ -23,9 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core'
+
 const users: globalThis.Ref<any> = ref(null)
 
-async function handleFind (data) {
+const handleFind = useDebounceFn(async (data) => {
   users.value = await searchUser(data)
-}
+}, 1000)
 </script>
