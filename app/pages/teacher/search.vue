@@ -11,7 +11,7 @@
         v-if="users"
         :items-displayed="users.map(user => {
           return {
-            id: users._id,
+            id: user._id,
             title: `${user.firstName} ${user.lastName}`,
             subtitle: user.username,
             link: `/teacher/${user._id}`
