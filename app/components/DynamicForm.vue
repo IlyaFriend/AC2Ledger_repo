@@ -7,7 +7,7 @@
       <div v-for="(field, key) in fieldsRef" :key="key" :label="field.label" class="flex justify-between items-center mb-4">
         <FormKit v-if="!field.immutable" outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
         <span v-else class="!max-w-[17%] w-full px-3">{{ field.name }}</span>
-        <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" type="text" :placeholder="field.placeholder" />
+        <FormKit v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" :type="field.type || 'text'" :placeholder="field.placeholder" />
         <button type="button" :disabled="field.immutable" class="cursor-pointer hover:text-primary-600 disabled:text-gray-300 disabled:cursor-default" @click="deleteFieldName(key)">
           <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
         </button>
@@ -45,6 +45,7 @@ const emits = defineEmits(['on-submit'])
 
 const formData = ref({})
 const indexKey = ref(Object.keys(props.fields).length)
+const addedKeysCounter = ref(1)
 
 const fieldsRef = ref(Object.values(props.fields).map((field) => {
   return {
@@ -77,7 +78,7 @@ const submitForm = () => {
 }
 
 const addField = () => {
-  const newField = { name: `key${indexKey.value - 1}`, label: '', type: 'text', placeholder: '' }
+  const newField = { name: `key${addedKeysCounter.value++}`, label: '', type: 'text', placeholder: '' }
   fieldsRef.value[indexKey.value] = newField
   indexKey.value++
 }
