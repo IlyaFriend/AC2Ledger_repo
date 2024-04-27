@@ -36,7 +36,7 @@ export default eventHandler(async (event) => {
   }
 
   const accessToken = sign({ ...user }, SECRET, {
-    expiresIn: 15
+    expiresIn: 15 * 1000
   })
   const refreshToken = sign({ ...user }, SECRET, {
     expiresIn: 60 * 60 * 24
