@@ -19,7 +19,7 @@
               title="Add achievement"
               description="Include background context on the achievement, such as collaborators and supporting data."
             >
-              <DynamicForm submit-label="Add" class="mt-4" @on-submit="data => addAchievement(data)" />
+              <AchievementCreateForm @on-create="createdAchievement => achievements?.push(createdAchievement)" />
             </DialogDefault>
           </div>
           <StackedInfoList
@@ -87,18 +87,6 @@ const currentTab = ref(0)
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
 /// //////////////////////////////////////
-
-async function addAchievement (inputData) {
-  const { title, type, ...details } = inputData
-  const achievementData = {
-    title,
-    type,
-    details
-  }
-  console.log('addAchievement', inputData)
-  const createdAchievement = await createAchievement(achievementData)
-  achievements.value?.push(createdAchievement)
-}
 
 async function handleDelete (id: string) {
   await deleteAchievement(id)
