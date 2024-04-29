@@ -1,5 +1,5 @@
 import { defineEventHandler, getQuery } from 'h3'
-import { User } from '../../dbModels'
+import { User } from '../../../dbModels'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
