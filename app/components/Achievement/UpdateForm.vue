@@ -19,6 +19,8 @@ const props = defineProps({
 })
 const emits = defineEmits(['on-update'])
 
+const { data: user } = useAuth()
+
 const achievementFields = { ...props.item }
 const fieldsArray = []
 
@@ -55,7 +57,7 @@ for (const [key, value] of Object.entries(achievementFields)) {
     }
 
     if (fieldType === 'users') {
-      field.usersToSkip = [props.item.createdBy]
+      field.usersToSkip = user.value.id === props.item.createdBy ? [] : [props.item.createdBy]
     }
     fieldsArray.push(field)
   }
@@ -71,7 +73,7 @@ async function handleUpdateAchievement (data) {
   const achievementData = {
     title,
     type,
-    users: [props.item.createdBy, ...users],
+    users: user.value.id === props.item.createdBy ? users : [props.item.createdBy, ...users],
     details
   }
 
