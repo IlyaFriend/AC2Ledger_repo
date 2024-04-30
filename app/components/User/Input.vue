@@ -1,5 +1,5 @@
 <template>
-  <AutoComplete v-model="value" :items="items.data.value?.data?.map(user => { return { value: user?._id, text: user?.username } })" multiple @query-change="value => query = value" />
+  <AutoComplete v-model="value" :items="mergedUsers" multiple @query-change="value => query = value" />
 </template>
 
 <script setup lang="ts">
@@ -13,10 +13,14 @@ interface Item extends Record<string, any> {
 
 type ModelValue = Item | Item[] | undefined | null
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Object as PropType<ModelValue>,
     required: true
+  },
+  usersToSkip: {
+    type: Array as PropType<string[]>,
+    default: () => []
   }
 })
 
@@ -24,20 +28,20 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: ModelValue | ModelValue[]): void
 }>()
 
-const value = ref()
+const value = ref(props.usersToSkip ? props.modelValue?.filter((id) => !props.usersToSkip.includes(id)) : props.modelValue || [])
 const debouncedValue = ref('')
 const query = ref('')
 
+const defaultUsers = await searchUsersByIds(props.modelValue) || []
+
 const fetchItems = async () => {
   try {
-    console.log('Fetching items', debouncedValue.value)
     const res = await useFetch('/api/users/search/starts-with', {
       query: {
         username: debouncedValue
       }
     })
-    console.log(res.data)
-    return res // .data?.value?.map(user => ({ value: user?.username, text: user?.username }))
+    return res
   } catch (error) {
     console.error('Error fetching items:', error)
     return []
@@ -45,6 +49,18 @@ const fetchItems = async () => {
 }
 
 const items = await useAsyncData(fetchItems)
+
+const mergedUsers = computed(() => {
+  const result = [...defaultUsers, ...items.data.value?.data].filter((user, index, self) =>
+    index === self.findIndex(t => (
+      t._id === user._id
+    ))
+  ).map((user) => { return { value: user?._id, text: user?.username } })
+  if (props.usersToSkip) {
+    return result.filter((u) => !props.usersToSkip.includes(u.value))
+  }
+  return result
+})
 
 const debouncedSetValue = useDebounceFn((newValue: string) => {
   debouncedValue.value = newValue
