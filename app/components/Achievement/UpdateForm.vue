@@ -9,6 +9,7 @@
 
 <script setup lang="ts">
 import { updateAchievement } from '~/composables/achievements'
+import { keys as nonPublicFields } from '~/utils/nonPublicKeys'
 
 const props = defineProps({
   item: {
@@ -21,9 +22,7 @@ const emits = defineEmits(['on-update'])
 const achievementFields = { ...props.item }
 const fieldsArray = []
 
-// remove non-public fields
-const nonPublicFields = ['_id', '__v', 'createdAt', 'updatedAt', 'createdBy', 'users'] // TODO: remove users after adding other users to achievements
-nonPublicFields.forEach(field => {
+nonPublicFields.forEach((field) => {
   delete achievementFields[field]
 })
 
@@ -36,11 +35,29 @@ for (const [key, value] of Object.entries(achievementFields)) {
       })
     }
   } else {
-    fieldsArray.push({
+    let fieldType
+    switch (key) {
+      case 'users':
+        fieldType = 'users'
+        break
+      case 'year':
+        fieldType = 'number'
+        break
+      default:
+        fieldType = 'text'
+    }
+
+    const field: any = {
       name: key,
       value,
+      type: fieldType,
       immutable: true
-    })
+    }
+
+    if (fieldType === 'users') {
+      field.usersToSkip = [props.item.createdBy]
+    }
+    fieldsArray.push(field)
   }
 }
 
@@ -49,11 +66,12 @@ const fields = fieldsArray.reduce((acc, item, index) => {
   return acc
 }, {})
 
-async function handleUpdateAchievement(data) {
-  const { title, type, ...details } = data
+async function handleUpdateAchievement (data) {
+  const { title, type, users, ...details } = data
   const achievementData = {
     title,
     type,
+    users: [props.item.createdBy, ...users],
     details
   }
 
