@@ -1,5 +1,5 @@
 import { Achievement } from '~/server/dbModels'
-import nonPublicKeys from '~/utils/nonPublicKeys'
+import { keys as nonPublicKeys } from '~/utils/nonPublicKeys'
 
 export function flattenDetails (achievement: typeof Achievement) {
   const { details, ...rest } = achievement
