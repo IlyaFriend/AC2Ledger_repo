@@ -137,8 +137,8 @@ const emit = defineEmits<{
   (e: 'query-change', value: string): void
 }>()
 
-const defaultValue = props.multiple ? [props.modelValue].filter(Boolean) : props.modelValue
-const selected = ref<ModelValue | ModelValue[]>(defaultValue)
+const defaultValue = props.multiple ? props.modelValue : props.modelValue
+const selected = ref<ModelValue | ModelValue[]>(defaultValue || [])
 const query = ref('')
 
 const filteredItems = computed(() =>
@@ -153,7 +153,7 @@ const filteredItems = computed(() =>
 )
 
 const removeSelected = (idx: number) => {
-  if (props.multiple) { (selected.value as ModelValue[])?.splice(idx, 1) }
+  if (props.multiple) { selected.value = (selected.value as ModelValue[])?.filter((_, index) => index !== idx) }
 }
 
 const clear = () => {
