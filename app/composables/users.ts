@@ -14,3 +14,16 @@ export const searchUser = async (searchParams) => {
     throw error
   }
 }
+
+export const searchUsersByIds = async (values: Array<any>) => {
+  try {
+    const url = `/api/users/search/many-by-ids?${new URLSearchParams({ ids: JSON.stringify(values) })}`
+
+    const response = await $fetch(url)
+
+    return response
+  } catch (error) {
+    console.error('Error searching for user:', error)
+    throw error
+  }
+}
