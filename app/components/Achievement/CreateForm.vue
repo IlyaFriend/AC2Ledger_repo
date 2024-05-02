@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 const emits = defineEmits(['on-create'])
 
 const fields = {
@@ -27,6 +28,7 @@ async function addAchievement (inputData) {
     users: [user.value.id, ...inputData.authors]
   }
   const createdAchievement = await createAchievement(achievementData)
+  toast.success('Achievement added successfully')
   emits('on-create', createdAchievement)
 }
 </script>

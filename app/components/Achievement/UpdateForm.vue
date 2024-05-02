@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { updateAchievement } from '~/composables/achievements'
 import { keys as nonPublicFields } from '~/utils/nonPublicKeys'
 
@@ -78,6 +79,11 @@ async function handleUpdateAchievement (data) {
   }
 
   const response = await updateAchievement(props.item._id, achievementData)
+  if (!response) {
+    toast.error('Error occurred while updating achievement')
+    return
+  }
+  toast.success('Achievement updated successfully')
   emits('on-update', response)
 }
 </script>

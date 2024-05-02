@@ -49,7 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { definePageMeta, useAuth } from '#imports'
+
 definePageMeta({
   auth: false,
   layout: false
@@ -62,6 +64,6 @@ function login (formData) {
     password: formData.password
   },
   { callbackUrl: '/' }
-  )
+  ).catch((err) => toast.error(err.statusMessage))
 }
 </script>

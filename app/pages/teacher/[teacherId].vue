@@ -59,6 +59,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+import { toast } from 'vue-sonner'
 import { ref, useAuth, useFetch } from '#imports'
 
 const { data: user } = useAuth()
@@ -91,6 +92,7 @@ const { data: achievements, error: errorAchievements } = await useFetch(`/api/ac
 async function handleDelete (id: string) {
   await deleteAchievement(id)
   achievements.value = achievements.value?.filter(achievement => achievement._id !== id)
+  toast.success('Achievements deleted successfully')
 }
 
 function openAddAchievementDialogOpen () {

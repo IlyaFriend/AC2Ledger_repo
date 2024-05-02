@@ -66,22 +66,38 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { definePageMeta } from '#imports'
+
 definePageMeta({
   auth: false,
   layout: false
 })
 
 async function signup (formData) {
-  const res = await $fetch('/api/users/', {
-    method: 'POST',
-    body: {
-      username: formData.username,
-      password: formData.password,
-      firstName: formData.firstName,
-      lastName: formData.lastName
+  try {
+    const res = await $fetch('/api/users/', {
+      method: 'POST',
+      body: {
+        username: formData.username,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName
+      }
+    })
+    if (res.id) {
+      toast.success('Welcome! You have signed up')
     }
-  })
-  console.log('signup response:', res)
+  } catch (e) {
+    let errorMessage
+    switch (e.statusCode) {
+      case 409:
+        errorMessage = 'Username already exists'
+        break
+      default:
+        errorMessage = 'Error occurred! Please try again'
+    }
+    toast.error(errorMessage)
+  }
 }
 </script>
