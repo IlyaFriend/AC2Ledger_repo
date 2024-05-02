@@ -32,7 +32,7 @@ const value = ref(props.usersToSkip ? props.modelValue?.filter((id) => !props.us
 const debouncedValue = ref('')
 const query = ref('')
 
-const defaultUsers = await searchUsersByIds(props.modelValue) || []
+const defaultUsers = props.modelValue ? await searchUsersByIds(props.modelValue) : []
 
 const fetchItems = async () => {
   try {
