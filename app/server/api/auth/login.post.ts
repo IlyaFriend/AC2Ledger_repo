@@ -14,7 +14,7 @@ export default eventHandler(async (event) => {
   const userData = await User.findOne({ username })
   if (!userData) {
     throw createError({
-      statusCode: 403,
+      statusCode: 404,
       statusMessage: 'User not found.'
     })
   }
@@ -22,7 +22,7 @@ export default eventHandler(async (event) => {
   const isPasswordValid = await userData.verifyPasswordSync(password)
   if (!isPasswordValid) {
     throw createError({
-      statusCode: 403,
+      statusCode: 401,
       statusMessage: 'Wrong password.'
     })
   }
