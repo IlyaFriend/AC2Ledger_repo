@@ -1,5 +1,5 @@
 <template>
-  <div class="px-12 py-8">
+  <div class="px-12 py-8 space-y-6">
     <DescriptionList :title="achievementInfoList.title" :item="omit(achievementInfoList, ['users'])" />
     <div v-if="achievementInfoList.users.length">
       <h3 class="text-xl font-semibold">
@@ -15,6 +15,19 @@
             link: `/teacher/${user._id}`
           }
         })"
+      />
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold">
+        Added by
+      </h3>
+      <StackedInfoList
+        :items-displayed="[{
+          id: achievement?.createdBy?._id,
+          title: `${achievement?.createdBy?.firstName} ${achievement?.createdBy?.lastName}`,
+          subtitle: achievement?.createdBy?.username,
+          link: `/teacher/${achievement?.createdBy?._id}`
+        }]"
       />
     </div>
   </div>
