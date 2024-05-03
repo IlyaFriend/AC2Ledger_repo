@@ -90,8 +90,19 @@ const { data: achievements, error: errorAchievements } = await useFetch(`/api/ac
 /// //////////////////////////////////////
 
 async function handleDelete (id: string) {
-  await deleteAchievement(id)
-  achievements.value = achievements.value?.filter(achievement => achievement._id !== id)
+  if (!achievements.value) {
+    return
+  }
+  const alteredAchievementIndex = achievements.value?.findIndex(achievement => achievement._id === id)
+
+  if (!alteredAchievementIndex) {
+    return
+  }
+
+  if (achievements.value?.[alteredAchievementIndex]?.createdBy !== user.value.id) {
+    await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
+  } else { await deleteAchievement(id) }
+  achievements.value?.splice(alteredAchievementIndex, 1)
   toast.success('Achievements deleted successfully')
 }
 
