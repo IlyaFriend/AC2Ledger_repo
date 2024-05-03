@@ -25,7 +25,8 @@ async function addAchievement (inputData) {
   const achievementData = {
     ...rest,
     ...details,
-    users: [user.value.id, ...inputData.authors]
+    users: [user.value.id, ...inputData.authors],
+    createdBy: user.value.id
   }
   const createdAchievement = await createAchievement(achievementData)
   toast.success('Achievement added successfully')
