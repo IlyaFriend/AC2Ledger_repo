@@ -27,3 +27,19 @@ export const deleteAchievement = async (achievementId: string) => {
   })
   return deletedAchievement
 }
+
+export const removeAchievementAuthor = async (achievementId: string, userId: string) => {
+  try {
+    const response = await $fetch('/api/achievements/remove_author/', {
+      method: 'PUT',
+      query: {
+        achievementId,
+        userId
+      }
+    })
+    return response
+  } catch (error) {
+    console.error('Error removing achievement author:', error)
+    throw new Error('Failed to remove achievement author.')
+  }
+}
