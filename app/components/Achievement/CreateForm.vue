@@ -21,11 +21,12 @@ const fields = {
 const { data: user } = useAuth()
 
 async function addAchievement (inputData) {
-  const { details, ...rest } = inputData
+  const { title, type, authors, ...details } = inputData
   const achievementData = {
-    ...rest,
-    ...details,
-    users: [user.value.id, ...inputData.authors],
+    title,
+    type,
+    details,
+    users: [user.value.id, ...(authors || [])],
     createdBy: user.value.id
   }
   const createdAchievement = await createAchievement(achievementData)
