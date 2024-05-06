@@ -1,5 +1,6 @@
 import { createError, eventHandler, readBody } from 'h3'
 import { sign, verify } from 'jsonwebtoken'
+import { User } from '~/server/dbModels'
 
 export const SECRET = 'dummy'
 
@@ -24,11 +25,19 @@ export default eventHandler(async (event) => {
 
   const expiresIn = 60 * 5 // 5 minutes
 
+  const userData = await User.findById(decoded.id)
+  if (!userData) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'User not found.'
+    })
+  }
+
   const user = {
-    id: decoded.id,
-    username: decoded.username,
-    firstName: decoded.firstName,
-    lastName: decoded.lastName,
+    id: userData._id,
+    username: userData.username,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
   }
 
   const accessToken = sign({ ...user }, SECRET, {
