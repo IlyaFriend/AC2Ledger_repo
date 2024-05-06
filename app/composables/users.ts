@@ -27,3 +27,17 @@ export const searchUsersByIds = async (values: Array<any>) => {
     throw error
   }
 }
+
+export const updateUser = async (userId: string, userData: any) => {
+  try {
+    return await $fetch(`/api/users/${userId}`, {
+      method: 'PUT',
+      body: {
+        data: userData
+      }
+    })
+  } catch (e) {
+    console.error('Error updating user:', e)
+    throw e
+  }
+}
