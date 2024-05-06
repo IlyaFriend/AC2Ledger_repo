@@ -95,15 +95,21 @@ async function handleDelete (id: string) {
   }
   const alteredAchievementIndex = achievements.value?.findIndex(achievement => achievement._id === id)
 
-  if (!alteredAchievementIndex) {
+  if (alteredAchievementIndex === -1) {
     return
   }
 
-  if (achievements.value?.[alteredAchievementIndex]?.createdBy !== user.value.id) {
-    await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
-  } else { await deleteAchievement(id) }
-  achievements.value?.splice(alteredAchievementIndex, 1)
-  toast.success('Achievements deleted successfully')
+  try {
+    if (achievements.value?.[alteredAchievementIndex]?.createdBy !== user.value.id) {
+      await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
+    } else {
+      await deleteAchievement(id)
+    }
+    achievements.value?.splice(alteredAchievementIndex, 1)
+    toast.success('Achievement deleted successfully')
+  } catch (e) {
+    toast.error(e.statusMessage)
+  }
 }
 
 function openAddAchievementDialogOpen () {
