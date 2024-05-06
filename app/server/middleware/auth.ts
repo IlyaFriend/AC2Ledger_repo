@@ -39,7 +39,7 @@ const ensureAuth = (event: H3Event) => {
 export default defineEventHandler((event) => {
   const url = getRequestURL(event).pathname
 
-  if (whitelist.findIndex(item => url.startsWith(item)) >= 0) {
+  if (event.method === 'GET' || whitelist.findIndex(item => url.startsWith(item)) >= 0) {
     return
   }
   const user = ensureAuth(event)
