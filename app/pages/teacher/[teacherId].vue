@@ -119,6 +119,9 @@ function openAddAchievementDialogOpen () {
 function handleUpdateAchievement (achievement) {
   const index = achievements.value?.findIndex(a => a._id === achievement._id)
 
+  if (index === undefined) {
+    return
+  }
   if (index !== -1) {
     achievements.value?.splice(index, 1, achievement)
   } else {
