@@ -21,7 +21,6 @@ export default defineNuxtConfig({
   auth: {
     provider: {
       type: 'refresh',
-      // refreshOnlyToken: true,
       endpoints: {
         getSession: { path: '/user' },
         refresh: { path: '/refresh', method: 'post' }
