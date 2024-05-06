@@ -1,0 +1,111 @@
+<template>
+  <div>
+    <!-- Settings forms -->
+    <div class="divide-y divide-gray-100 dark:divide-white/5">
+      <FormKitSection
+        @on-submit="updatePersonalInfo"
+      >
+        <template #title>
+          Personal Information
+        </template>
+        <template #subtitle>
+          Use a permanent address where you can receive mail.
+        </template>
+
+        <FormKit
+          type="text"
+          name="username"
+          label="Username"
+          validation="length:1,50"
+          outer-class="sm:col-span-6"
+          :value="user.username"
+        />
+        <FormKit
+          type="text"
+          name="firstName"
+          label="First name"
+          validation="length:1,50"
+          outer-class="sm:col-span-3"
+          :value="user.firstName"
+        />
+        <FormKit
+          type="text"
+          name="lastName"
+          label="Last name"
+          validation="length:1,50"
+          outer-class="sm:col-span-3"
+          :value="user.lastName"
+        />
+      </FormKitSection>
+
+      <FormKitSection
+        @on-submit="resetPassword"
+      >
+        <template #title>
+          Change password
+        </template>
+        <template #subtitle>
+          Update your password associated with your account.
+        </template>
+
+        <FormKit
+          type="password"
+          name="currentPassword"
+          label="Current password"
+          validation="required|length:8"
+          outer-class="sm:col-span-6"
+        />
+
+        <FormKit
+          type="password"
+          name="newPassword"
+          label="New password"
+          validation="required|length:8"
+          outer-class="sm:col-span-6"
+        />
+
+        <FormKit
+          type="password"
+          name="newPassword_confirm"
+          label="Confirm password"
+          validation="required|confirm"
+          outer-class="sm:col-span-6"
+        />
+      </FormKitSection>
+
+      <FormKitSection>
+        <template #submit-button>
+          <div class="flex mt-8">
+            <FormKit type="submit" label="Yes, delete my account" input-class="bg-red-500 hover:bg-red-400 dark:bg-red-500 dark:hover:bg-red-400 border-0" />
+          </div>
+        </template>
+        <template #title>
+          Delete account
+        </template>
+        <template #subtitle>
+          No longer want to use our service? You can delete your account here. This action is not reversible. All
+          information related to this account will be deleted permanently.
+        </template>
+      </FormKitSection>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useAuth } from '#imports'
+import { updateUser } from '~/composables/users'
+
+const { $auth } = useNuxtApp()
+const { data: user, refresh } = useAuth()
+
+async function updatePersonalInfo (formData: any) {
+  console.log('user data', formData, user?.value?.id)
+  const res = await updateUser(user?.value?.id, formData)
+  await refresh()
+  console.log(102, res, $auth)
+}
+
+async function resetPassword (formData) {
+  console.log('password data', formData)
+}
+</script>
