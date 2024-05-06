@@ -78,12 +78,12 @@ async function handleUpdateAchievement (data) {
     details
   }
 
-  const response = await updateAchievement(props.item._id, achievementData)
-  if (!response) {
+  try {
+    const updatedAchievement = await updateAchievement(props.item._id, achievementData)
+    toast.success('Achievement updated successfully')
+    emits('on-update', updatedAchievement)
+  } catch (error) {
     toast.error('Error occurred while updating achievement')
-    return
   }
-  toast.success('Achievement updated successfully')
-  emits('on-update', response)
 }
 </script>
