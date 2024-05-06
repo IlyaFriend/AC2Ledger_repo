@@ -1,24 +1,34 @@
-import { defineEventHandler, readBody } from 'h3'
+import { defineEventHandler, readBody, createError } from 'h3'
 import { Achievement } from '../../dbModels'
 
 interface IRequestBody {
   data: any;
 }
+
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params
-  console.log(`*** PUT /api/achievements/${id} ***`)
   const { data } = await readBody<IRequestBody>(event)
+  const user = event.context.user
+
   try {
-    const updatedAchievement = await Achievement.findByIdAndUpdate(id, data, { new: true })
-    console.log('updated achivement:', updatedAchievement, '\n')
-    return updatedAchievement
-    // return null
-  } catch (err) {
-    console.dir(err)
-    event.res.statusCode = 500
-    return {
-      code: 'ERROR',
-      message: 'Something wrong.'
+    console.log(`*** PUT /api/achievements/${id} ***`)
+
+    const achievement = await Achievement.findById(id)
+
+    if (!achievement) {
+      throw createError({ statusCode: 404, statusMessage: 'Achievement not found.' })
     }
+
+    // Check if the current user is included in the users of the achievement
+    if (user && !achievement?.users?.includes(user.id)) {
+      throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this achievement.' })
+    }
+
+    const updatedAchievement = await Achievement.findByIdAndUpdate(id, data, { new: true })
+    console.log('Updated achievement:', updatedAchievement)
+    return updatedAchievement
+  } catch (error) {
+    console.error('Error updating achievement:', error)
+    throw error
   }
 })
