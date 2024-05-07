@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white shadow-md">
+  <header class="bg-white shadow-md" :class="{ 'bg-emerald-300': user?.role === 'admin'}">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <NuxtLink to="#" class="-m-1.5 p-1.5">
@@ -72,11 +72,11 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { navigateTo, useAuth } from '#imports'
+import { useAuth } from '#imports'
 
 const mobileMenuOpen = ref(false)
 const {
-  data,
+  data: user,
   status,
   signOut
 } = useAuth()
@@ -85,9 +85,8 @@ const navigation = [
 ]
 
 if (status.value === 'authenticated') {
-  console.log(data.value)
   navigation.push({ name: 'Account', href: '/account' })
-  navigation.push({ name: `${data.value.firstName} ${data.value.lastName}`, href: `/teacher/${data.value.id}` })
+  navigation.push({ name: `${user.value.firstName} ${user.value.lastName}`, href: `/teacher/${user.value.id}` })
 }
 
 async function handleSignout () {
