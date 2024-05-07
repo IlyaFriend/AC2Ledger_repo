@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
         delete cleanData[key]
       }
     }
+    delete cleanData.role // ensuring users cannot update their roles
 
     const updatedUser = await User.findByIdAndUpdate(id, cleanData, { new: true })
     console.log('Updated user:', updatedUser)
