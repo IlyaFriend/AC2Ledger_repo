@@ -20,7 +20,7 @@
             {{ item.secondarySubtitle }}
           </p>
         </div>
-        <Menu v-if="authorMode" as="div" class="relative flex-none">
+        <Menu as="div" class="relative flex-none">
           <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
@@ -34,7 +34,7 @@
             leave-to-class="transform opacity-0 scale-95"
           >
             <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-              <MenuItem v-slot="{ active }">
+              <MenuItem v-if="updateAction" v-slot="{ active }">
                 <button
                   :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
                   @click="handleUpdateItem(item.id)"
@@ -42,7 +42,7 @@
                   Update
                 </button>
               </MenuItem>
-              <MenuItem v-slot="{ active }">
+              <MenuItem v-if="deleteAction" v-slot="{ active }">
                 <button
                   :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
                   @click="handleDeleteItem(item.id)"
@@ -91,6 +91,14 @@ type Item = {
 
 defineProps({
   authorMode: {
+    type: Boolean,
+    default: false
+  },
+  updateAction: {
+    type: Boolean,
+    default: false
+  },
+  deleteAction: {
     type: Boolean,
     default: false
   },

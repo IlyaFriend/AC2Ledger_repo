@@ -23,7 +23,8 @@
             </DialogDefault>
           </div>
           <StackedInfoList
-            :author-mode="authorMode"
+            :update-action="authorMode"
+            :delete-action="authorMode || adminMode"
             :items-displayed="achievements?.map(item => {
               return {
                 id: item._id,
@@ -73,6 +74,9 @@ const { data: teacher } = await useFetch(`/api/users/${teacherId}`)
 const authorMode = computed(() => {
   return user.value.id === teacherId
 })
+const adminMode = computed(() => {
+  return user.value.role === 'admin'
+})
 
 const menuTabs = [
   { name: 'achievements', href: '#', current: true },
@@ -100,10 +104,11 @@ async function handleDelete (id: string) {
   }
 
   try {
-    if (achievements.value?.[alteredAchievementIndex]?.createdBy !== user.value.id) {
-      await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
-    } else {
+    console.log(107, 'adminMode', adminMode.value)
+    if (achievements.value?.[alteredAchievementIndex]?.createdBy === user.value.id || adminMode.value) {
       await deleteAchievement(id)
+    } else {
+      await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
     }
     achievements.value?.splice(alteredAchievementIndex, 1)
     toast.success('Achievement deleted successfully')
