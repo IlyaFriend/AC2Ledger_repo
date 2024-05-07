@@ -92,20 +92,23 @@
 </template>
 
 <script setup lang="ts">
+import { toast } from 'vue-sonner'
 import { useAuth } from '#imports'
-import { updateUser } from '~/composables/users'
+import { changePassword, updateUser } from '~/composables/users'
 
-const { $auth } = useNuxtApp()
 const { data: user, refresh } = useAuth()
 
 async function updatePersonalInfo (formData: any) {
-  console.log('user data', formData, user?.value?.id)
-  const res = await updateUser(user?.value?.id, formData)
+  await updateUser(user?.value?.id, formData)
   await refresh()
-  console.log(102, res, $auth)
 }
 
 async function resetPassword (formData) {
-  console.log('password data', formData)
+  try {
+    await changePassword(formData.currentPassword, formData.newPassword)
+    toast.success('Your password has been updated')
+  } catch (e) {
+    toast.error(e.statusMessage)
+  }
 }
 </script>
