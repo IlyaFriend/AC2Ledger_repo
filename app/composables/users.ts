@@ -29,15 +29,20 @@ export const searchUsersByIds = async (values: Array<any>) => {
 }
 
 export const updateUser = async (userId: string, userData: any) => {
-  try {
-    return await $fetch(`/api/users/${userId}`, {
-      method: 'PUT',
-      body: {
-        data: userData
-      }
-    })
-  } catch (e) {
-    console.error('Error updating user:', e)
-    throw e
-  }
+  return await $fetch(`/api/users/${userId}`, {
+    method: 'PUT',
+    body: {
+      data: userData
+    }
+  })
+}
+
+export const changePassword = async (currentPassword: string, newPassword: string) => {
+  return await $fetch('/api/users/change_password', {
+    method: 'PUT',
+    body: {
+      currentPassword,
+      newPassword
+    }
+  })
 }
