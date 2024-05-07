@@ -38,6 +38,7 @@ export default eventHandler(async (event) => {
     username: userData.username,
     firstName: userData.firstName,
     lastName: userData.lastName,
+    role: userData.role
   }
 
   const accessToken = sign({ ...user }, SECRET, {
