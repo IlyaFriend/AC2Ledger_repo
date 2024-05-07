@@ -104,7 +104,6 @@ async function handleDelete (id: string) {
   }
 
   try {
-    console.log(107, 'adminMode', adminMode.value)
     if (achievements.value?.[alteredAchievementIndex]?.createdBy === user.value.id || adminMode.value) {
       await deleteAchievement(id)
     } else {
