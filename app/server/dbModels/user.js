@@ -4,6 +4,12 @@ import bcrypt from 'mongoose-bcrypt'
 const { Schema } = mongoose
 
 const SchemaMain = new Schema({
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    required: true,
+    default: 'user'
+  },
   username: { type: String, unique: true, required: true },
   password: { type: String, bcrypt: true, required: true },
   firstName: {
