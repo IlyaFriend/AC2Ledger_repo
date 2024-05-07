@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Check if the current user is the author of the achievement
-    if (currentUser && achievement?.createdBy?.toString() === currentUser.id) {
+    if (currentUser && (achievement?.createdBy?.toString() === currentUser.id || event.context.isAdmin)) {
       const result = await Achievement.deleteOne({ _id: id })
       console.log('Achievement deleted:', result)
       return result
