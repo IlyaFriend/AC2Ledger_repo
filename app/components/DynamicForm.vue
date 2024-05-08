@@ -80,7 +80,7 @@ const submitForm = () => {
 }
 
 const addField = () => {
-  const newField = { name: `key${addedKeysCounter.value++}`, label: '', type: 'text', placeholder: '' }
+  const newField = { name: `${addedKeysCounter.value++}`, label: '', type: 'text', placeholder: '' }
   fieldsRef.value[indexKey.value] = newField
   indexKey.value++
 }
