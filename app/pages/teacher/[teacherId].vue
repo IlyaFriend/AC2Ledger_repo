@@ -13,6 +13,14 @@
       <div v-if="+currentTab === 0">
         <div v-if="!errorAchievements">
           <div v-if="authorMode">
+            <NuxtLink
+              class="flex justify-center w-full bg-[#edf1f4] rounded-xl py-2 hover:underline hover:text-primary-500 cursor-pointer"
+              href="/achievement/scopus/import"
+            >
+              <span class="">
+                Import from Scopus
+              </span>
+            </NuxtLink>
             <AddButton title="Add a new achievement" class="my-4" @click="openAddAchievementDialogOpen" />
             <DialogDefault
               ref="addAchievementDialog"
