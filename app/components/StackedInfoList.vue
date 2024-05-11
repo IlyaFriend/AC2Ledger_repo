@@ -15,13 +15,14 @@
         </div>
       </div>
       <div class="flex shrink-0 items-center gap-x-6">
+        <slot name="right-menu" :item="item" />
         <div class="hidden sm:flex sm:flex-col sm:items-end">
           <p class="text-sm leading-6 text-gray-900">
             {{ item.secondarySubtitle }}
           </p>
         </div>
         <Menu as="div" class="relative flex-none">
-          <MenuButton class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+          <MenuButton v-if="updateAction || deleteAction" class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
           </MenuButton>
