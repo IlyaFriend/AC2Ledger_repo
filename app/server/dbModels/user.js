@@ -20,6 +20,7 @@ const SchemaMain = new Schema({
     type: String,
     required: true
   },
+  scopus_id: String,
   patronymic: String,
   courses: [String],
   externalProfiles: Object
