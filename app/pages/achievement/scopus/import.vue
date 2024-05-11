@@ -1,24 +1,30 @@
 <template>
-  <div class="px-12 py-8">
+  <div v-if="scopusId" class="px-12 py-8">
     <div>
-      <div>Search for my documents on Scopus</div>
-      <div v-if="scopusId">
-        {{ scopusId }}
+      <div class="text-2xl font-semibold">
+        Search for my documents on Scopus
       </div>
-      <div v-else>
-        Set your scopus id in
-        <NuxtLink to="/account">
-          the account settings
-        </NuxtLink>
+      <div class="mt-4">
+        <p>Your Scopus Id: {{ scopusId }}</p>
+        <p class="text-sm">
+          You can change it in
+          <NuxtLink to="/account" class="text-primary-800 underline hover:text-primary-500 cursor-pointer">
+            the settings
+          </NuxtLink>
+        </p>
       </div>
-    </div>
-    <div>
-      <FormKit type="button" label="Search" @click="fetchDocuments" />
     </div>
 
-    <div class="mt-6">
-      <div class="flex justify-between pr-8">
-        <div>results:</div><div>Add all</div>
+    <div v-if="!results" class="flex justify-center">
+      We have not found any results on Scopus. Check your Scopus Id or try later.
+    </div>
+
+    <div v-else class="mt-6">
+      <div class="flex justify-between pr-12">
+        <div class="text-xl">
+          Results:
+        </div>
+        <div>Add all</div>
       </div>
       <StackedInfoList
         :items-displayed="results?.data.map(item => {
@@ -30,17 +36,31 @@
         })"
       >
         <template #right-menu="{ item }">
-          <button type="button" @click="handleAdd(item.id)">
-            Add
+          <button type="button" class="hover:text-primary-600" @click="handleAdd(item.id)">
+            <Icon name="material-symbols-light:add-box-outline-rounded" size="1.5em" />
           </button>
 
-          <button type="button" @click="console.log(item)">
-            Remove
+          <button type="button" class="hover:text-primary-600" @click="console.log(item)">
+            <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
           </button>
         </template>
       </Stackedinfolist>
     </div>
   </div>
+  <LayoutInfoPage v-else link-url="/account">
+    <template #status-code>
+      <div />
+    </template>
+    <template #page-title>
+      Scopus ID not specified
+    </template>
+    <template #page-description>
+      Please, add your Scopus user ID in the settings
+    </template>
+    <template #link-text>
+      Go to settings
+    </template>
+  </LayoutInfoPage>
 </template>
 
 <script setup lang="ts">
@@ -48,13 +68,9 @@ import { toast } from 'vue-sonner'
 import { ref, useAuth, useFetch } from '#imports'
 
 const { data: user } = useAuth()
-const scopusId = '57221725143' // user?.value?.scopus_id
+const scopusId = user?.value?.scopus_id
 
-const results = ref(null)
-
-async function fetchDocuments () {
-  results.value = await useFetch(`/api/scopus/author/${scopusId}`)
-}
+const results = ref(scopusId ? await useFetch(`/api/scopus/author/${scopusId}`) : null)
 
 async function handleAdd (id: string) {
   const achievementIndex = results.value?.data?.findIndex(achievement => achievement?.scopus_id === id)
