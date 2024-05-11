@@ -39,6 +39,26 @@
       </FormKitSection>
 
       <FormKitSection
+        @on-submit="updatePersonalInfo"
+      >
+        <template #title>
+          Scopus User Id
+        </template>
+        <template #subtitle>
+          Add your Scopus Id. Thus, you can import your Scopus documents as achievements to ScholarSphere!
+        </template>
+
+        <FormKit
+          type="text"
+          name="scopus_id"
+          label="Scopus Id"
+          validation="length:1,50"
+          outer-class="sm:col-span-6"
+          :value="user.scopus_id"
+        />
+      </FormKitSection>
+
+      <FormKitSection
         @on-submit="resetPassword"
       >
         <template #title>
@@ -100,6 +120,7 @@ const { data: user, refresh } = useAuth()
 
 async function updatePersonalInfo (formData: any) {
   await updateUser(user?.value?.id, formData)
+  toast.success('Information has been updated')
   await refresh()
 }
 
