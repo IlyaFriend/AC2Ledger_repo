@@ -20,33 +20,66 @@
     </div>
 
     <div v-else class="mt-6">
-      <div class="flex justify-between pr-12">
-        <div class="text-xl">
-          Results:
-        </div>
-        <button type="button" class="hover:text-primary-600" @click="handleAddAll">
-          Add all <Icon name="material-symbols-light:library-add-outline-rounded" size="1.5em" />
-        </button>
-      </div>
-      <StackedInfoList
-        :items-displayed="results?.data.map(item => {
-          return {
-            id: item.scopus_id,
-            title: item.title,
-            subtitle: item.type,
-          }
-        })"
-      >
-        <template #right-menu="{ item }">
-          <button type="button" class="hover:text-primary-600" @click="handleAdd(item.id)">
-            <Icon name="material-symbols-light:add-box-outline-rounded" size="1.5em" />
-          </button>
+      <PageTabbedMenu :tabs="tabs" :current-tab="currentTab" @change-tab="v => currentTab = v" />
 
-          <button type="button" class="hover:text-primary-600" @click="handleDelete(item.id)">
-            <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
+      <div v-if="currentTab === 0">
+        <div class="flex justify-between pr-12 pt-4">
+          <div class="text-xl font-semibold">
+            Documents not added to your achievements
+          </div>
+          <button type="button" class="hover:text-primary-600" @click="handleAddAll">
+            Add all <Icon name="material-symbols-light:library-add-outline-rounded" size="1.5em" />
           </button>
-        </template>
-      </Stackedinfolist>
+        </div>
+        <StackedInfoList
+          :items-displayed="results?.data?.results.filter(item => !results.data.existing?.find(ach => ach.scopus_id === item.scopus_id)).map(item => {
+            return {
+              id: item.scopus_id,
+              title: item.title,
+              subtitle: item.type,
+            }
+          })"
+        >
+          <template #right-menu="{ item }">
+            <button type="button" class="hover:text-primary-600" @click="handleAdd(item.id)">
+              <Icon name="material-symbols-light:add-box-outline-rounded" size="1.5em" />
+            </button>
+
+            <button type="button" class="hover:text-primary-600" @click="handleDelete(item.id)">
+              <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
+            </button>
+          </template>
+        </Stackedinfolist>
+      </div>
+      <div>
+        <div class="flex justify-between pr-12 pt-4">
+          <div class="text-xl font-semibold">
+            Documents <u>already added</u> to your achievements
+          </div>
+          <button type="button" class="hover:text-primary-600" @click="handleAddAll">
+            Add all <Icon name="material-symbols-light:library-add-outline-rounded" size="1.5em" />
+          </button>
+        </div>
+        <StackedInfoList
+          :items-displayed="results?.data?.results.filter(item => results.data.existing?.find(ach => ach.scopus_id === item.scopus_id)).map(item => {
+            return {
+              id: item.scopus_id,
+              title: item.title,
+              subtitle: item.type,
+            }
+          })"
+        >
+          <template #right-menu="{ item }">
+            <button type="button" class="hover:text-primary-600" @click="handleAdd(item.id)">
+              <Icon name="material-symbols-light:add-box-outline-rounded" size="1.5em" />
+            </button>
+
+            <button type="button" class="hover:text-primary-600" @click="handleDelete(item.id)">
+              <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
+            </button>
+          </template>
+        </Stackedinfolist>
+      </div>
     </div>
   </div>
   <LayoutInfoPage v-else link-url="/account">
@@ -69,27 +102,30 @@
 import { toast } from 'vue-sonner'
 import { ref, useAuth, useFetch } from '#imports'
 
+const tabs = [{ name: 'results' }, { name: 'existing' }]
+const currentTab = ref(0)
+
 const { data: user } = useAuth()
 const scopusId = user?.value?.scopus_id
 
 const results = ref(scopusId ? await useFetch(`/api/scopus/author/${scopusId}`) : null)
 
 async function handleAdd (id: string) {
-  const achievementIndex = results.value?.data?.findIndex(achievement => achievement?.scopus_id === id)
+  const achievementIndex = results.value?.data?.results?.findIndex(achievement => achievement?.scopus_id === id)
   if (achievementIndex === -1) {
     toast.error('Error occured.')
     return
   }
 
   const achievementData = {
-    ...results.value.data?.[achievementIndex],
+    ...results.value.data.results?.[achievementIndex],
     users: [user.value.id],
     createdBy: user.value.id
   }
   try {
     await createAchievement(achievementData)
     toast.success('Achievement added successfully')
-    results.value.data.splice(achievementIndex, 1)
+    results.value.data.results.splice(achievementIndex, 1)
   } catch (e) {
     toast.error('Error occured.')
     console.log(e)
@@ -97,7 +133,7 @@ async function handleAdd (id: string) {
 }
 
 async function handleAddAll () {
-  const achievementData = results.value?.data?.map((achievement) => {
+  const achievementData = results.value?.data?.results?.map((achievement) => {
     return {
       ...achievement,
       users: [user.value.id],
@@ -108,7 +144,7 @@ async function handleAddAll () {
   try {
     await createAchievement(achievementData)
     toast.success('Achievements added successfully')
-    results.value.data = []
+    results.value.data.results = []
   } catch (e) {
     toast.error('Error occured.')
     console.log(e)
@@ -116,11 +152,11 @@ async function handleAddAll () {
 }
 
 function handleDelete (id: string) {
-  const achievementIndex = results.value?.data?.findIndex(achievement => achievement?.scopus_id === id)
+  const achievementIndex = results.value?.data?.results?.findIndex(achievement => achievement?.scopus_id === id)
   if (achievementIndex === -1) {
     toast.error('Error occured.')
     return
   }
-  results.value.data.splice(achievementIndex, 1)
+  results.value?.data?.results.splice(achievementIndex, 1)
 }
 </script>
