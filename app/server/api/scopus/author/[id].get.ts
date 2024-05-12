@@ -16,20 +16,20 @@ function getFullName (author: any): string {
   return result.trim()
 }
 
-    type AbstractDocument = {
-      title: string
-      type: string
-      details: {
-        'Creator\'s Full Name': string
-        'Creator\'s Scopus Id': string
-        'Publication Name': string
-        ISSN: string
-        'Page Range': string
-        'Cover Date': string
-        Citations: string | number
-      },
-      scopus_id: string | number
-    }
+type AbstractDocument = {
+  title: string
+  type: string
+  details: {
+    'Creator\'s Full Name': string
+    'Creator\'s Scopus Id': string
+    'Publication Name': string
+    ISSN: string
+    'Page Range': string
+    'Cover Date': string
+    Citations: string | number
+  },
+  scopus_id: string | number
+}
 
 const castToAbstractDocument = (document: any): AbstractDocument => {
   const creator = document['dc:creator']?.author?.[0]
