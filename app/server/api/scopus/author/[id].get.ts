@@ -1,4 +1,5 @@
 import { defineEventHandler } from 'h3'
+import { Achievement } from '~/server/dbModels'
 
 function getFullName (author: any): string {
   const givenName = author['ce:given-name'] || author['preferred-name']?.['ce:given-name'] || ''
@@ -95,7 +96,19 @@ export default defineEventHandler(async (event) => {
       castToAbstractDocument(doc)
     )
 
-    return abstractDocuments
+    const existingAchievements = await Achievement.find({
+      $and: [
+        { scopus_id: { $in: abstractDocuments.map(doc => doc.scopus_id) } },
+        {
+          $or: [
+            { createdBy: event.context.user?.id },
+            { users: { $in: [event.context.user?.id] } }
+          ]
+        }
+      ]
+    })
+
+    return { results: abstractDocuments, existing: existingAchievements }
   } catch (err) {
     console.log(err)
     throw createError({
