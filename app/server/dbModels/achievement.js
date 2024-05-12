@@ -30,7 +30,8 @@ const SchemaMain = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     immutable: true
-  }
+  },
+  scopus_id: String
 })
 
 export default SchemaMain
