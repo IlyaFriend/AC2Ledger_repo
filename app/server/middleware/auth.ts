@@ -2,7 +2,8 @@ import { createError, H3Event } from 'h3'
 import { verify } from 'jsonwebtoken'
 import { SECRET } from '~/server/api/auth/login.post'
 
-const whitelist = ['/api/auth/', '/login'] // routes that need this middleware
+const blacklist = ['/api/auth/', '/login'] // routes that need this middleware
+const whitelist = ['/api/scopus/']
 
 const ensureAuth = (event: H3Event) => {
   const tokenParts = event?.req?.headers?.cookie.split(';')
@@ -39,7 +40,11 @@ const ensureAuth = (event: H3Event) => {
 export default defineEventHandler((event) => {
   const url = getRequestURL(event).pathname
 
-  if (event.method === 'GET' || whitelist.findIndex(item => url.startsWith(item)) >= 0) {
+  if (blacklist.findIndex(item => url.startsWith(item)) >= 0) {
+    return
+  }
+
+  if (event.method === 'GET' && whitelist.findIndex(item => url.startsWith(item)) < 0) {
     return
   }
   const user = ensureAuth(event)
