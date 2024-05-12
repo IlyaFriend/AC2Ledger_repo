@@ -24,7 +24,9 @@
         <div class="text-xl">
           Results:
         </div>
-        <div>Add all</div>
+        <button type="button" class="hover:text-primary-600" @click="handleAddAll">
+          Add all <Icon name="material-symbols-light:library-add-outline-rounded" size="1.5em" />
+        </button>
       </div>
       <StackedInfoList
         :items-displayed="results?.data.map(item => {
@@ -40,7 +42,7 @@
             <Icon name="material-symbols-light:add-box-outline-rounded" size="1.5em" />
           </button>
 
-          <button type="button" class="hover:text-primary-600" @click="console.log(item)">
+          <button type="button" class="hover:text-primary-600" @click="handleDelete(item.id)">
             <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
           </button>
         </template>
@@ -92,5 +94,33 @@ async function handleAdd (id: string) {
     toast.error('Error occured.')
     console.log(e)
   }
+}
+
+async function handleAddAll () {
+  const achievementData = results.value?.data?.map((achievement) => {
+    return {
+      ...achievement,
+      users: [user.value.id],
+      createdBy: user.value.id
+    }
+  })
+  console.log('achievementData', achievementData)
+  try {
+    await createAchievement(achievementData)
+    toast.success('Achievements added successfully')
+    results.value.data = []
+  } catch (e) {
+    toast.error('Error occured.')
+    console.log(e)
+  }
+}
+
+function handleDelete (id: string) {
+  const achievementIndex = results.value?.data?.findIndex(achievement => achievement?.scopus_id === id)
+  if (achievementIndex === -1) {
+    toast.error('Error occured.')
+    return
+  }
+  results.value.data.splice(achievementIndex, 1)
 }
 </script>
