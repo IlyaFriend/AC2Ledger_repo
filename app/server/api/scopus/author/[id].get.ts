@@ -51,17 +51,22 @@ const castToAbstractDocument = (document: any): AbstractDocument => {
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params
-  console.log(`\n\n\n\n\n\n*** GET /api/users/${id} ***`)
 
-  const apiKey = '155050d6ccbda4558ba04b4134aa4031' // Scopus API key
+  const { scopusApiKey }: { scopusApiKey?: string } = useRuntimeConfig(event).public
+  if (!scopusApiKey) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Scopus API key not found.'
+    })
+  }
 
-  const authorUrl = `https://api.elsevier.com/content/search/scopus?query=au-id(${id})&apiKey=${apiKey}`
+  const authorUrl = `https://api.elsevier.com/content/search/scopus?query=au-id(${id})&apiKey=${scopusApiKey}`
 
   const headers = {
-    'X-ELS-APIKey': apiKey
+    'X-ELS-APIKey': scopusApiKey
   }
   const queryParams = new URLSearchParams({
-    apiKey,
+    apiKey: scopusApiKey,
     httpAccept: 'application/json'
   })
 
@@ -80,7 +85,7 @@ export default defineEventHandler(async (event) => {
       return []
     }
     const entriesLinks = sourcesByAuthorFetchResponse?.['search-results']?.entry.map((item: any) => item?.['prism:url'])
-    const documentsFetchResponse = await Promise.all(entriesLinks.map(async (link: any) => await $fetch(`${link}?httpAccept=application/json&apiKey=${apiKey}`, {
+    const documentsFetchResponse = await Promise.all(entriesLinks.map(async (link: any) => await $fetch(`${link}?httpAccept=application/json&apiKey=${scopusApiKey}`, {
       query: queryParams
     })))
 
