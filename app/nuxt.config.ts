@@ -45,5 +45,8 @@ export default defineNuxtConfig({
   },
   formkit: {
     autoImport: true
+  },
+  experimental: {
+    renderJsonPayloads: false
   }
 })
