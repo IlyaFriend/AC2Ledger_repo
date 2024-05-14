@@ -14,7 +14,7 @@
           <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
         </button>
       </div>
-      <button type="button" variant="info" class="mb-4 hover:text-primary-500 flex items-center" @click="addField">
+      <button v-if="addNewFields" type="button" variant="info" class="mb-4 hover:text-primary-500 flex items-center" @click="addField">
         <Icon name="material-symbols-light:add-circle-outline-rounded" size="2em" /><span class="ml-1">Add a new field</span>
       </button>
     </FormKit>
@@ -41,6 +41,10 @@ const props = defineProps({
         1: { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type', immutable: true }
       }
     }
+  },
+  addNewFields: {
+    type: Boolean,
+    default: true
   }
 })
 const emits = defineEmits(['on-submit'])
