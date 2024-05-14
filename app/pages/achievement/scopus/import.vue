@@ -51,7 +51,7 @@
           </template>
         </Stackedinfolist>
       </div>
-      <div>
+      <div v-if="currentTab === 1">
         <div class="flex justify-between pr-12 pt-4">
           <div class="text-xl font-semibold">
             Documents <u>already added</u> to your achievements
