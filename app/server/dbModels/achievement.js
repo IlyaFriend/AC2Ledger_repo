@@ -23,12 +23,12 @@ const SchemaMain = new Schema({
   users: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'user'
     }
   ],
   createdBy: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'user',
     immutable: true
   },
   scopus_id: String
