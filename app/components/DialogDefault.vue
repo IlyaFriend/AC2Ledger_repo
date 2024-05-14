@@ -3,7 +3,7 @@
     <Dialog :open="isOpen" class="relative z-50" :class="dialogClass" @close="closeModal">
       <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div class="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel class="w-2/3 rounded-lg px-16 py-8 bg-white relative" :class="panelClass">
+        <DialogPanel class="w-3/4 rounded-lg px-16 py-8 bg-white relative" :class="panelClass">
           <div class="absolute top-0 right-0 p-4">
             <CloseButton @click="closeModal" />
           </div>
