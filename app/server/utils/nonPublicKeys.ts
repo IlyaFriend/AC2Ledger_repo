@@ -1,3 +1,3 @@
-export const keys = ['_id', '__v', 'createdBy', 'createdAt', 'updatedAt', 'password']
+export const keys = ['_id', '__v', 'createdBy', 'createdAt', 'updatedAt', 'password', 'role']
 export const keysToString = keys.map(key => `-${key}`).join(' ')
 export const keysToStringExclude = (...args: string[]) => keys.filter(key => !args.includes(key)).map(key => `-${key}`).join(' ')
