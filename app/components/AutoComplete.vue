@@ -1,6 +1,7 @@
 <template>
   <Combobox v-model="selected" :multiple="multiple">
-    <div class="relative mt-1 w-full mx-2">
+    <div class="relative mt-1 w-full">
+      <div v-if="title" class="text-neutral-700 text-sm font-bold !inline-flex mb-1 formkit-label">{{ title }}</div>
       <div
         class="relative w-full border border-neutral-400 cursor-default overflow-hidden rounded bg-white text-left shadow-sm focus:outline-none sm:text-sm"
       >
@@ -114,6 +115,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  title: {
+    type: String,
+    default: ''
+  },
   placeholder: {
     type: String,
     default: ''
@@ -137,7 +142,7 @@ const emit = defineEmits<{
   (e: 'query-change', value: string): void
 }>()
 
-const defaultValue = props.multiple ? props.modelValue : props.modelValue
+const defaultValue = props.modelValue
 const selected = ref<ModelValue | ModelValue[]>(defaultValue || [])
 const query = ref('')
 
