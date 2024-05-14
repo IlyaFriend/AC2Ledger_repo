@@ -6,7 +6,7 @@ const SchemaMain = new Schema({
     type: String,
     required: true
   },
-  admins: [{
+  administration: [{
     type: Schema.Types.ObjectId,
     ref: 'user'
   }],
