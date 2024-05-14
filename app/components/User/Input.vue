@@ -24,15 +24,24 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: ModelValue | ModelValue[]): void
-}>()
+const emit = defineEmits(['update:modelValue'])
 
-const value = ref(props.usersToSkip ? props.modelValue?.filter((id) => !props.usersToSkip.includes(id)) : props.modelValue || [])
+// modelValue can be either an array of strings (user ids) or user objects
+// in the 2nd variant, no need to fetch them
+const defaultUsers = Array.isArray(props.modelValue)
+  ? props.modelValue.length > 0
+    ? typeof props.modelValue[0] === 'string'
+      ? await searchUsersByIds(props.modelValue)
+      : props.modelValue
+    : []
+  : []
+
+const filteredUserIds = props.modelValue?.map(item => item?._id || item)?.filter(item => !props.usersToSkip.includes(item)) || []
+
+const value = ref(filteredUserIds)
+
 const debouncedValue = ref('')
 const query = ref('')
-
-const defaultUsers = props.modelValue ? await searchUsersByIds(props.modelValue) : []
 
 const fetchItems = async () => {
   try {
@@ -57,7 +66,7 @@ const mergedUsers = computed(() => {
     ))
   ).map((user) => { return { value: user?._id, text: user?.username } })
   if (props.usersToSkip) {
-    return result.filter((u) => !props.usersToSkip.includes(u.value))
+    return result.filter(u => !props.usersToSkip.includes(u.value))
   }
   return result
 })
