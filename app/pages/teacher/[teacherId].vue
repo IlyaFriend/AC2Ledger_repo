@@ -10,7 +10,7 @@
     </div>
     <div>
       <!-- Content -->
-      <div v-if="+currentTab === 0">
+      <div v-show="+currentTab === 0">
         <div v-if="!errorAchievements">
           <div v-if="authorMode">
             <NuxtLink
@@ -53,13 +53,13 @@
           Error occured. Please, try later.
         </div>
       </div>
-      <div v-if="+currentTab === 1">
+      <div v-show="+currentTab === 1">
         courses
       </div>
-      <div v-if="+currentTab === 2">
+      <div v-show="+currentTab === 2">
         university
       </div>
-      <div v-if="+currentTab === 3">
+      <div v-show="+currentTab === 3">
         contact
       </div>
     </div>
