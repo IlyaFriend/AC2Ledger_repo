@@ -8,7 +8,7 @@
         <FormKit v-if="!field.immutable" outer-class="!max-w-[17%] $remove:mb-4" type="text" :value="field.name" @change="e => changeFieldName(key, e.target.value)" />
         <span v-else class="!max-w-[17%] w-full px-3">{{ field.label }}</span>
 
-        <UserInput v-if="field.type === 'users'" v-model="formData[key]" :users-to-skip="field.usersToSkip" class="mx-2" />
+        <UserInput v-if="field.type === 'users'" v-model="formData[key]" :users-to-skip="field.usersToSkip" class="mx-1 sm:mx-2 xl:mx-4" />
         <FormKit v-else v-model="formData[key]" outer-class="!max-w-[77%] $remove:mb-4" :type="field.type || 'text'" :placeholder="field.placeholder" />
         <button type="button" :disabled="field.immutable" class="cursor-pointer hover:text-primary-600 disabled:text-gray-300 disabled:cursor-default" @click="deleteFieldName(key)">
           <Icon name="material-symbols-light:delete-outline-sharp" size="1.5em" />
