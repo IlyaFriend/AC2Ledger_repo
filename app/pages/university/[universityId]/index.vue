@@ -35,11 +35,11 @@ const { universityId } = route.params
 
 const { data: university } = await useFetch(`/api/universities/${universityId}`)
 
-const faculties = ref(university.value.faculties.reverse().map(faculty => { return { ...faculty, link: `/university/${universityId}/faculty/${faculty._id}` } }))
+const faculties = ref(university.value?.faculties?.reverse().map(faculty => { return { ...faculty, link: `/university/${universityId}/faculty/${faculty._id}` } }))
 
 async function handleCreateFaculty(faculty) {
   try {
-    const createdFaculty = await createFaculty(universityId, faculty)
+    const createdFaculty = await createFaculty(universityId as string, faculty)
     faculties.value.unshift({ ...createdFaculty, link: `/university/${universityId}/faculty/${createdFaculty._id}` })
     toast.success('New faculty has been created')
   } catch (e) {
@@ -49,7 +49,7 @@ async function handleCreateFaculty(faculty) {
 
 async function handleUpdateUniversity (formValue) {
   try {
-    await updateUniversity(universityId, formValue)
+    await updateUniversity(universityId as string, formValue)
     toast.success('University has been updated successfully')
   } catch (error) {
     toast.error(error.message)
