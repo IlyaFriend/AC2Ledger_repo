@@ -13,16 +13,18 @@ export default defineEventHandler(async (event) => {
   try {
     console.log(`*** PUT /api/universities/${universityId} ***`)
 
+    // Check if the current user is included in the administrators of the university, faculty or department, or if the user is admin
+    if (user && !await isInAdministration(user.id, universityId) && !event.context.isAdmin) {
+      throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this university.' })
+    }
+
     const university = await University.findById(universityId)
 
     if (!university) {
       throw createError({ statusCode: 404, statusMessage: 'University not found.' })
     }
 
-    // Check if the current user is included in the users of the university
-    if (user && !university?.administration?.includes(user.id)) {
-      throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this university.' })
-    }
+    console.log()
 
     const updatedUniversity = await University.findByIdAndUpdate(universityId, data, { new: true })
     console.log('Updated university:', updatedUniversity)

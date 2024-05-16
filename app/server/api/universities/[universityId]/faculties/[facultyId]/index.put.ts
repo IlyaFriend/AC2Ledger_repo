@@ -11,9 +11,13 @@ export default defineEventHandler(async (event) => {
   const { data } = await readBody<IRequestBody>(event)
   const user = event.context.user
 
-  try {
-    console.log(`*** PUT /api/universities/${universityId}/faculty/${facultyId} ***`)
+  console.log(`*** PUT /api/universities/${universityId}/faculty/${facultyId} ***`)
 
+  if (user && !await isInAdministration(user.id, universityId, facultyId) && !event.context.isAdmin) {
+    throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this faculty.' })
+  }
+
+  try {
     const faculty = await Faculty.findById(facultyId)
 
     if (!faculty) {
@@ -21,7 +25,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Check if the current user is included in the users of the faculty
-    if (user && !isInAdministration(user.id, universityId, facultyId)) {
+    if (user && !await isInAdministration(user.id, universityId, facultyId)) {
       throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this faculty.' })
     }
 

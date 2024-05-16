@@ -1,12 +1,18 @@
 import { defineEventHandler, readBody } from 'h3'
-import { Department, Faculty } from '../../../../../../dbModels'
+import { Department, Faculty } from '~/server/dbModels'
 
 interface IRequestBody {
   data: any;
 }
 export default defineEventHandler(async (event) => {
   console.log('*** POST /api/departments/ ***')
-  const { data: { department, facultyId } } = await readBody<IRequestBody>(event)
+  const { universityId, facultyId } = event.context.params
+  const { data: { department } } = await readBody<IRequestBody>(event)
+  const user = event.context.user
+
+  if (user && !await isInAdministration(user.id, universityId, facultyId) && !event.context.isAdmin) {
+    throw createError({ statusCode: 403, statusMessage: 'You do not have permission to add a new department in this faculty.' })
+  }
 
   let newDepartment
   try {

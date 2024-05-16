@@ -8,6 +8,11 @@ export default defineEventHandler(async (event) => {
   console.log('*** POST /api/faculties/ ***')
   const { data: faculty } = await readBody<IRequestBody>(event)
   const { universityId } = event.context.params
+  const user = event.context.user
+
+  if (user && !await isInAdministration(user.id, universityId) && !event.context.isAdmin) {
+    throw createError({ statusCode: 403, statusMessage: 'You do not have permission to create a new faculty in this university.' })
+  }
 
   let newFaculty
   try {
