@@ -9,6 +9,10 @@ const SchemaMain = new Schema({
   administration: [{
     type: Schema.Types.ObjectId,
     ref: 'user'
+  }],
+  teachers: [{
+    type: Schema.Types.ObjectId,
+    ref: 'user'
   }]
 })
 
