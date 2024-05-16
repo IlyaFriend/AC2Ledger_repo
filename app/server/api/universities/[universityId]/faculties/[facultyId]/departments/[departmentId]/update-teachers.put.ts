@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Check if the current user is included in the users of the department
-    if (user && !isInAdministration(user.id, universityId, facultyId, departmentId)) {
+    if (user && !await isInAdministration(user.id, universityId, facultyId, departmentId)) {
       throw createError({ statusCode: 403, statusMessage: 'You do not have permission to update this department.' })
     }
 
