@@ -1,12 +1,12 @@
 import { defineEventHandler } from 'h3'
-import { University } from '../../dbModels'
+import { University } from '../../../dbModels'
 
 export default defineEventHandler(async (event) => {
-  const { id } = event.context.params
-  console.log(`*** GET /api/universities/${id} ***`)
+  const { universityId } = event.context.params
+  console.log(`*** GET /api/universities/${universityId} ***`)
 
   try {
-    const fetchedUniversity = await University.findById(id)
+    const fetchedUniversity = await University.findById(universityId)
       .populate({
         path: 'administration',
         select: keysToStringExclude('_id')
@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
         path: 'faculties',
         select: keysToStringExclude('_id')
       })
-    console.log('fetched university:', fetchedUniversity, '\n')
     return fetchedUniversity
   } catch (err) {
     console.log(err)

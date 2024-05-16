@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody } from 'h3'
-import { Department, Faculty } from '../../dbModels'
+import { Department, Faculty } from '../../../../../../dbModels'
 
 interface IRequestBody {
   data: any;
