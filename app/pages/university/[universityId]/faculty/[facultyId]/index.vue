@@ -8,7 +8,7 @@
       <h1 class="text-2xl font-semibold">
         Update faculty information
       </h1>
-      <UniversityForm v-model="faculty" submit-label="Update" @submit="v => handleUpdateUniversity(v)" />
+      <FacultyForm v-model="faculty" submit-label="Update" @submit="v => handleUpdateFaculty(v)" />
     </div>
     <!-- faculties information -->
     <div v-show="currentTab === 1">
@@ -34,14 +34,12 @@ const route = useRoute()
 const { universityId, facultyId } = route.params
 
 const { data: faculty } = await useFetch(`/api/faculties/${facultyId}`)
-console.log('faculty', faculty)
 
-const departments = ref(faculty.value.departments?.reverse()?.map(department => { return { ...department, link: `/university/${universityId}/faculty/${facultyId}/department/${department._id}` } }))
+const departments = ref(faculty.value?.departments?.reverse()?.map(department => { return { ...department, link: `/university/${universityId}/faculty/${facultyId}/department/${department._id}` } }))
 
 async function handleCreateDepartment(faculty) {
   try {
-    const createdDepartment = await createDepartment(facultyId, faculty)
-    console.log(43, departments.value, createdDepartment)
+    const createdDepartment = await createDepartment(universityId as string, facultyId as string, faculty)
     departments.value.unshift({ ...createdDepartment, link: `/university/${universityId}/faculty/${facultyId}/department/${createdDepartment._id}` })
     toast.success('New faculty has been created')
   } catch (e) {
@@ -49,10 +47,10 @@ async function handleCreateDepartment(faculty) {
   }
 }
 
-async function handleUpdateDepartment (formValue) {
+async function handleUpdateFaculty (formValue) {
   try {
-    await updateDepartment(facultyId, formValue)
-    toast.success('Department has been updated successfully')
+    await updateFaculty(universityId as string, facultyId as string, formValue)
+    toast.success('Faculty has been updated successfully')
   } catch (error) {
     toast.error(error.message)
   }
