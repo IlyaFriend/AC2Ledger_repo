@@ -52,7 +52,7 @@ async function handleUpdateFaculty (formValue) {
     await updateFaculty(universityId as string, facultyId as string, formValue)
     toast.success('Faculty has been updated successfully')
   } catch (error) {
-    toast.error(error.message)
+    toast.error(error.statusMessage)
   }
 }
 </script>
