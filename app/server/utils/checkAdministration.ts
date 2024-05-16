@@ -1,6 +1,6 @@
 import { University, Faculty, Department } from '~/server/dbModels'
 
-export async function isInAdministration (userId: string, universityId: string, facultyId: string, departmentId: string): Promise<boolean> {
+export async function isInAdministration (userId: string, universityId?: string, facultyId?: string, departmentId?: string): Promise<boolean> {
   if (universityId) {
     const university = await University.findById(universityId)
 
