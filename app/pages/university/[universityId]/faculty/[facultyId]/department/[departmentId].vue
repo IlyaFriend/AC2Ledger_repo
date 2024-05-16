@@ -42,7 +42,7 @@ async function handleAddTeachers(data) {
     const addedTeachers = await addTeachers(universityId as string, facultyId as string, departmentId as string, data.teachers)
     teachers.value.push(...addedTeachers?.map(teacher => { return { name: `${teacher.lastName} ${teacher.firstName}`, description: teacher.username, link: `/teacher/${teacher._id}` } }))
   } catch (e) {
-    toast.error(e.message)
+    toast.error(e.statusMessage)
   }
 }
 

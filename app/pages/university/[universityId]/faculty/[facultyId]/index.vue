@@ -43,7 +43,7 @@ async function handleCreateDepartment(faculty) {
     departments.value.unshift({ ...createdDepartment, link: `/university/${universityId}/faculty/${facultyId}/department/${createdDepartment._id}` })
     toast.success('New faculty has been created')
   } catch (e) {
-    toast.error(e.message)
+    toast.error(e.statusMessage)
   }
 }
 
@@ -51,8 +51,8 @@ async function handleUpdateFaculty (formValue) {
   try {
     await updateFaculty(universityId as string, facultyId as string, formValue)
     toast.success('Faculty has been updated successfully')
-  } catch (error) {
-    toast.error(error.statusMessage)
+  } catch (e) {
+    toast.error(e.statusMessage)
   }
 }
 </script>
