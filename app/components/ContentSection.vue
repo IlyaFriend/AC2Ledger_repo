@@ -1,10 +1,13 @@
 <template>
   <div>
-    {{ title }}
+    <div class="text-xl font-semibold">
+      {{ title }}
+    </div>
     <div>
       <div>{{ subtitle }}</div>
-      <AddButton :title="addButtonLabel" class="my-4" @click="openAddDialogOpen" />
+      <AddButton v-if="adminMode" :title="addButtonLabel" class="my-4" @click="openAddDialogOpen" />
       <DialogDefault
+        v-if="adminMode"
         ref="addDialog"
         :title="dialogTitle"
       >
@@ -19,6 +22,10 @@
 
 <script setup lang="ts">
 const props = defineProps({
+  adminMode: {
+    type: Boolean,
+    default: false
+  },
   items: {
     type: Array,
     default: () => []
