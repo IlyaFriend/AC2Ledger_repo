@@ -27,13 +27,16 @@ export default eventHandler(async (event) => {
     })
   }
 
+  const userEntities = await findAdminEntities(userData._id)
+
   const user = {
     id: userData._id,
     username: userData.username,
     firstName: userData.firstName,
     lastName: userData.lastName,
     role: userData.role,
-    scopus_id: userData.scopus_id
+    scopus_id: userData.scopus_id,
+    ...userEntities
     // fullName: userData.fullName
   }
 
