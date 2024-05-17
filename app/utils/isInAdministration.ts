@@ -1,4 +1,8 @@
 export default function (user: any, entityIds: string[] | string): boolean {
+  if (user.role === 'admin') {
+    return true
+  }
+
   const userEntityIds = [...user.universities, ...user.faculties, ...user.departments]
 
   const hasAccess = (id: string) => userEntityIds.includes(id)
