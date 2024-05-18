@@ -58,7 +58,7 @@
       </div>
       <div v-show="+currentTab === 2">
         <StackedInfoList
-          :items-displayed="universities?.map((university) => {
+          :items-displayed="teacher.userUniversities?.map((university) => {
             return {
               id: university._id,
               title: university.name,
@@ -108,7 +108,6 @@ const currentTab = ref(0)
 
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
-const universities = await searchUniversitiesByIds(user.value.universities)
 /// //////////////////////////////////////
 
 async function handleDelete (id: string) {
