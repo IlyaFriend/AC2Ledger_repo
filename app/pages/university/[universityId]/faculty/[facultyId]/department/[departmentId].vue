@@ -53,6 +53,38 @@
         <TeacherSearchForm @on-submit="data => handleAddTeachers(data)" />
       </ContentSection>
     </div>
+    <div v-show="currentTab === 2">
+      <div v-if="!achievementsError">
+        <div v-if="adminMode">
+          <AddButton title="Add a new achievement" class="my-4" @click="openAddAchievementDialogOpen" />
+          <DialogDefault
+            ref="addAchievementDialog"
+            title="Add achievement"
+            description="Include background context on the achievement, such as collaborators and supporting data."
+          >
+            <AchievementCreateForm :additional-fields="[{ name: 'department_id', label: 'Department id', type: 'text', immutable: true, value: departmentId, disabled: true }]" @on-create="createdAchievement => achievementsOfDepartment?.push(createdAchievement)" />
+          </DialogDefault>
+        </div>
+        <StackedInfoList
+          :update-action="adminMode"
+          :delete-action="adminMode"
+          :items-displayed="achievementsOfDepartment?.map(item => {
+            return {
+              id: item._id,
+              title: item.title,
+              subtitle: item.type,
+              link: `/achievement/${item._id}`
+            }
+          })"
+          :items="achievementsOfDepartment"
+          @delete-event="id => handleDelete(id)"
+        >
+          <template #update-form="scope">
+            <AchievementUpdateForm :item="scope.item" @on-update="achievement => handleUpdateAchievement(achievement)" />
+          </template>
+        </StackedInfoList>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -64,7 +96,8 @@ const { data: user } = useAuth()
 
 const menuTabs = [
   { name: 'main information', href: '#' },
-  { name: 'teachers', href: '#' }
+  { name: 'teachers', href: '#' },
+  { name: 'achievements', href: '#' }
 ]
 const currentTab = ref(0)
 
@@ -75,9 +108,10 @@ const { universityId, facultyId, departmentId } = route.params
 const adminMode = isInAdministration(user.value, [universityId as string, facultyId as string])
 
 const { data: department } = await useFetch(`/api/departments/${departmentId}`)
-console.log('department', department.value)
 
 const teachers = ref(department.value?.teachers?.reverse()?.map((teacher) => { return { name: `${teacher.lastName} ${teacher.firstName}`, description: teacher.username, link: `/teacher/${teacher._id}` } }))
+
+const { data: achievementsOfDepartment, error: achievementsError } = await useFetch(`/api/departments/${departmentId}/achievements`)
 
 async function handleAddTeachers (data) {
   try {
@@ -95,5 +129,10 @@ async function handleUpdateDepartment (formValue) {
   } catch (error) {
     toast.error(error.statusMessage)
   }
+}
+
+const addAchievementDialog = ref(null)
+function openAddAchievementDialogOpen () {
+  addAchievementDialog.value?.openModal()
 }
 </script>
