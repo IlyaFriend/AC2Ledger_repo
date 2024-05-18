@@ -1,3 +1,5 @@
+import type { University } from '~/server/dbModels'
+
 export const createUniversity = async (universityData) => {
   const createdUniversity = await $fetch('/api/universities/', {
     method: 'POST',
@@ -16,4 +18,20 @@ export const updateUniversity = async (universityId: string, universityData: any
     }
   })
   return updatedUniversity
+}
+
+export const searchUniversitiesByIds = async (values: Array<any>): Promise<typeof University[]> => {
+  if (!values) {
+    return []
+  }
+  try {
+    const url = `/api/universities/search/many-by-ids?${new URLSearchParams({ ids: JSON.stringify(values) })}`
+
+    const response = await $fetch(url)
+
+    return response
+  } catch (error) {
+    console.error('Error searching for universities:', error)
+    throw error
+  }
 }
