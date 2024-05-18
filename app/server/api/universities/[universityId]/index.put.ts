@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody, createError } from 'h3'
-import { University } from '../../../dbModels'
+import { University } from '~/server/dbModels'
 
 interface IRequestBody {
   data: any;

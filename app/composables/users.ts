@@ -23,7 +23,7 @@ export const searchUsersByIds = async (values: Array<any>) => {
 
     return response
   } catch (error) {
-    console.error('Error searching for user:', error)
+    console.error('Error searching for users:', error)
     throw error
   }
 }
