@@ -2,7 +2,7 @@
   <div class="p-12">
     <div>
       <!-- Header -->
-      <PageInfoHeader :title="`${teacher.firstName} ${teacher.lastName}`" :description="'NaUKMA'" />
+      <PageInfoHeader :title="`${teacher.firstName} ${teacher.lastName}`" :description="teacher.username" />
     </div>
     <div>
       <!-- Nav -->
@@ -57,7 +57,16 @@
         courses
       </div>
       <div v-show="+currentTab === 2">
-        university
+        <StackedInfoList
+          :items-displayed="universities?.map((university) => {
+            return {
+              id: university._id,
+              title: university.name,
+              subtitle: university.shortName,
+              link: `/university/${university._id}`
+            }
+          })"
+        />
       </div>
       <div v-show="+currentTab === 3">
         contact
@@ -89,7 +98,7 @@ const adminMode = computed(() => {
 const menuTabs = [
   { name: 'achievements', href: '#', current: true },
   { name: 'courses', href: '#', current: false },
-  { name: 'university', href: '#', current: false },
+  { name: 'universities', href: '#', current: false },
   { name: 'contact', href: '#', current: false }
 ]
 
@@ -99,6 +108,7 @@ const currentTab = ref(0)
 
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
+const universities = await searchUniversitiesByIds(user.value.universities)
 /// //////////////////////////////////////
 
 async function handleDelete (id: string) {
