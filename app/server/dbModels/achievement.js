@@ -31,7 +31,8 @@ const SchemaMain = new Schema({
     ref: 'user',
     immutable: true
   },
-  scopus_id: String
+  scopus_id: String,
+  department_id: String
 })
 
 export default SchemaMain
