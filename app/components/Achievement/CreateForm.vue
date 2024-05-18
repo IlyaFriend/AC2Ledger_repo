@@ -10,22 +10,34 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 const emits = defineEmits(['on-create'])
+const props = defineProps({
+  additionalFields: {
+    type: Array,
+    default: () => []
+  }
+})
 
-const fields = {
-  0: { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title', immutable: true },
-  1: { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type', immutable: true },
-  2: { name: 'authors', label: 'Other authors', type: 'users', placeholder: 'Add authors', immutable: true },
-  3: { name: 'year', label: 'Year', type: 'number', placeholder: 'Enter year' },
-}
+const fields = Object.entries([
+  { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title', immutable: true },
+  { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type', immutable: true },
+  { name: 'authors', label: 'Other authors', type: 'users', placeholder: 'Add authors', immutable: true },
+  { name: 'year', label: 'Year', type: 'number', placeholder: 'Enter year' },
+  ...props.additionalFields
+]).reduce((obj, [key, value]) => {
+  obj[key] = value
+  return obj
+}, {})
 
 const { data: user } = useAuth()
 
 async function addAchievement (inputData) {
-  const { title, type, authors, ...details } = inputData
+  const { title, type, authors, department_id, scopus_id, ...details } = inputData
   const achievementData = {
     title,
     type,
     details,
+    department_id,
+    scopus_id,
     users: [user.value.id, ...(authors || [])],
     createdBy: user.value.id
   }
