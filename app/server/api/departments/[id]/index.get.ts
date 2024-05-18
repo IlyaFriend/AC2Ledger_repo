@@ -1,5 +1,5 @@
 import { defineEventHandler } from 'h3'
-import { Department } from '../../dbModels'
+import { Department } from '~/server/dbModels'
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params
