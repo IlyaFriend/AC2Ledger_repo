@@ -62,7 +62,7 @@
             title="Add achievement"
             description="Include background context on the achievement, such as collaborators and supporting data."
           >
-            <AchievementCreateForm :additional-fields="[{ name: 'department_id', label: 'Department id', type: 'text', immutable: true, value: departmentId, disabled: true }]" @on-create="createdAchievement => achievementsOfDepartment?.push(createdAchievement)" />
+            <AchievementCreateForm :additional-fields="[{ name: 'department_id', label: 'Department id', type: 'text', immutable: true, value: departmentId, disabled: true }]" :self-add="false" @on-create="createdAchievement => achievementsOfDepartment?.push(createdAchievement)" />
           </DialogDefault>
         </div>
         <StackedInfoList

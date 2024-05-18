@@ -14,6 +14,10 @@ const props = defineProps({
   additionalFields: {
     type: Array,
     default: () => []
+  },
+  selfAdd: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -38,7 +42,7 @@ async function addAchievement (inputData) {
     details,
     department_id,
     scopus_id,
-    users: [user.value.id, ...(authors || [])],
+    users: [...(props?.selfAdd ? user.value.id : []), ...(authors || [])],
     createdBy: user.value.id
   }
   const createdAchievement = await createAchievement(achievementData)
