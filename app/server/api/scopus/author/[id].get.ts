@@ -29,7 +29,8 @@ type AbstractDocument = {
     'Cover Date': string
     Citations: string | number
   },
-  scopus_id: string | number
+  scopus_id: string | number,
+  year: number
 }
 
 const castToAbstractDocument = (document: any): AbstractDocument => {
@@ -46,7 +47,8 @@ const castToAbstractDocument = (document: any): AbstractDocument => {
       'Cover Date': document['prism:coverDate'],
       Citations: document['citedby-count']
     },
-    scopus_id: document['dc:identifier'].split(':')[1]
+    scopus_id: document['dc:identifier'].split(':')[1],
+    year: +document['prism:coverDate'].split('-')[0] || new Date().getFullYear()
   }
 }
 
