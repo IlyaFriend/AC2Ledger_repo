@@ -23,7 +23,7 @@ const props = defineProps({
 
 const fields = Object.entries([
   { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title', immutable: true },
-  { name: 'type', label: 'Type', type: 'text', placeholder: 'Enter type', immutable: true },
+  { name: 'type', label: 'Type', type: 'achievementType', placeholder: 'Enter type', immutable: true },
   { name: 'authors', label: 'Other authors', type: 'users', placeholder: 'Add authors', immutable: true },
   { name: 'year', label: 'Year', type: 'number', placeholder: 'Enter year' },
   ...props.additionalFields
@@ -42,7 +42,7 @@ async function addAchievement (inputData) {
     details,
     department_id,
     scopus_id,
-    users: [...(props?.selfAdd ? user.value.id : []), ...(authors || [])],
+    users: [...(props?.selfAdd ? [user.value.id] : []), ...(authors || [])],
     createdBy: user.value.id
   }
   const createdAchievement = await createAchievement(achievementData)

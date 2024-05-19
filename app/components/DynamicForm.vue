@@ -9,6 +9,7 @@
         <span v-else class="!max-w-[17%] w-full px-3">{{ field.label }}</span>
 
         <UserInput v-if="field.type === 'users'" v-model="formData[key]" :users-to-skip="field.usersToSkip" class="mx-1 sm:mx-2 xl:mx-4" />
+        <AutoComplete v-else-if="field.type === 'achievementType'" v-model="formData[key]" :items="achievementTypeNames.map(item => { return { value: item, text: item } })" class="mx-1 sm:mx-2 xl:mx-4" />
         <FormKit
           v-else
           v-model="formData[key]"
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { achievementTypeNames } from '~/server/utils/achievementTypes'
 
 const props = defineProps({
   title: {
@@ -87,6 +89,7 @@ const submitForm = () => {
   for (const [key, value] of Object.entries(fieldsRef.value)) {
     result[value?.name] = formData.value[key]
   }
+  console.log(92, result)
   emits('on-submit', result)
 }
 
