@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { achievementTypeNames } from '~/server/utils/achievementTypes'
 const { Schema } = mongoose
 
 const SchemaMain = new Schema({
@@ -6,7 +7,12 @@ const SchemaMain = new Schema({
     type: String,
     required: true
   },
-  type: String,
+  type: {
+    type: String,
+    enum: achievementTypeNames,
+    required: true,
+    default: achievementTypeNames[achievementTypeNames.length - 1]
+  },
   description: String,
   createdAt: {
     type: Date,
