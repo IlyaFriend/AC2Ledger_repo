@@ -15,7 +15,7 @@
         </ul>
         <ComboboxInput
           class="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900"
-          :display-value="(item) => (item as Item)?.[itemText]"
+          :display-value="(item) => multiple ? (item as Item)?.[itemText] : item"
           :placeholder="placeholder"
           @change="query = $event.target.value"
         />
@@ -167,6 +167,7 @@ const clear = () => {
 
 watch(selected, (val) => {
   emit('update:modelValue', val)
+  console.log(170, 'val', val)
 })
 
 watch(query, () => {
