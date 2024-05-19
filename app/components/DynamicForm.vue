@@ -89,7 +89,6 @@ const submitForm = () => {
   for (const [key, value] of Object.entries(fieldsRef.value)) {
     result[value?.name] = formData.value[key]
   }
-  console.log(92, result)
   emits('on-submit', result)
 }
 
