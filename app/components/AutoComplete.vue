@@ -167,7 +167,6 @@ const clear = () => {
 
 watch(selected, (val) => {
   emit('update:modelValue', val)
-  console.log(170, 'val', val)
 })
 
 watch(query, () => {
