@@ -135,4 +135,17 @@ const addAchievementDialog = ref(null)
 function openAddAchievementDialogOpen () {
   addAchievementDialog.value?.openModal()
 }
+
+function handleUpdateAchievement (achievement) {
+  const index = achievementsOfDepartment.value?.findIndex(a => a._id === achievement._id)
+
+  if (index === undefined) {
+    return
+  }
+  if (index !== -1) {
+    achievementsOfDepartment.value?.splice(index, 1, achievement)
+  } else {
+    console.error('Error: achievement not found.')
+  }
+}
 </script>
