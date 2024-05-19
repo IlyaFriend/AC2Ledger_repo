@@ -43,6 +43,9 @@ for (const [key, value] of Object.entries(achievementFields)) {
       case 'users':
         fieldType = 'users'
         break
+      case 'type':
+        fieldType = 'achievementType'
+        break
       case 'year':
         fieldType = 'number'
         break
