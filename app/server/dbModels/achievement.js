@@ -38,7 +38,12 @@ const SchemaMain = new Schema({
     immutable: true
   },
   scopus_id: String,
-  department_id: String
+  department_id: String,
+  year: {
+    type: Number,
+    required: true,
+    default: () => new Date().getFullYear()
+  }
 })
 
 export default SchemaMain
