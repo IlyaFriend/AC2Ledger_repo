@@ -23,7 +23,17 @@ const SchemaMain = new Schema({
   scopus_id: String,
   patronymic: String,
   courses: [String],
-  externalProfiles: Object
+  externalProfiles: Object,
+  score: {
+    type: Number,
+    default: 0,
+    validate: {
+      validator: function (v) {
+        return v >= 0
+      },
+      message: props => `${props.value} must be a non-negative number!`
+    }
+  }
 })
 
 SchemaMain.methods.verifyPasswordSync = function (password) {
