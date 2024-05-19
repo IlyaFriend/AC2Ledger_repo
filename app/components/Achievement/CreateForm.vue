@@ -25,7 +25,7 @@ const fields = Object.entries([
   { name: 'title', label: 'Title', type: 'text', placeholder: 'Enter title', immutable: true },
   { name: 'type', label: 'Type', type: 'achievementType', placeholder: 'Enter type', immutable: true },
   { name: 'authors', label: 'Other authors', type: 'users', placeholder: 'Add authors', immutable: true },
-  { name: 'year', label: 'Year', type: 'number', placeholder: 'Enter year' },
+  { name: 'year', label: 'Year', type: 'number', placeholder: 'Enter year', immutable: true, value: () => new Date().getFullYear() },
   ...props.additionalFields
 ]).reduce((obj, [key, value]) => {
   obj[key] = value
@@ -35,10 +35,11 @@ const fields = Object.entries([
 const { data: user } = useAuth()
 
 async function addAchievement (inputData) {
-  const { title, type, authors, department_id, scopus_id, ...details } = inputData
+  const { title, type, year, authors, department_id, scopus_id, ...details } = inputData
   const achievementData = {
     title,
     type,
+    year,
     details,
     department_id,
     scopus_id,

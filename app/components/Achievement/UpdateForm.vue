@@ -73,10 +73,13 @@ const fields = fieldsArray.reduce((acc, item, index) => {
 }, {})
 
 async function handleUpdateAchievement (data) {
-  const { title, type, users, ...details } = data
+  const { title, type, users, year, department_id, scopus_id, ...details } = data
   const achievementData = {
     title,
     type,
+    year,
+    department_id,
+    scopus_id,
     users: user.value.id === props.item.createdBy ? users : [props.item.createdBy, ...users],
     details
   }
