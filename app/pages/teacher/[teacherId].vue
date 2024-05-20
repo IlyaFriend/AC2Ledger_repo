@@ -2,7 +2,7 @@
   <div class="p-12">
     <div>
       <!-- Header -->
-      <PageInfoHeader :title="`${teacher.firstName} ${teacher.lastName}`" :description="teacher.username" />
+      <PageInfoHeader :title="`${teacher.firstName} ${teacher.lastName}`" :description="teacher.username" :right-text="`Personal score: ${teacher.score}`" />
     </div>
     <div>
       <!-- Nav -->
@@ -12,6 +12,7 @@
       <!-- Content -->
       <div v-show="+currentTab === 0">
         <div v-if="!errorAchievements">
+          <GridList :items="teacherInfo" class="my-4" />
           <div v-if="authorMode">
             <NuxtLink
               class="flex justify-center w-full bg-[#edf1f4] rounded-xl py-2 hover:underline hover:text-primary-500 cursor-pointer"
@@ -109,6 +110,17 @@ const currentTab = ref(0)
 /// /////////  fetches  /////////////////
 const { data: achievements, error: errorAchievements } = await useFetch(`/api/achievements/?user=${teacher.value?._id}`)
 /// //////////////////////////////////////
+
+const teacherInfo = ref([
+  {
+    description: 'Personal ScholarSphere Score',
+    name: teacher.value?.score || 0
+  },
+  {
+    description: 'Achievements',
+    name: achievements.value?.length || 0
+  }
+])
 
 async function handleDelete (id: string) {
   if (!achievements.value) {

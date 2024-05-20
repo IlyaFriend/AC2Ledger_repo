@@ -55,6 +55,7 @@
     </div>
     <div v-show="currentTab === 2">
       <div v-if="!achievementsError">
+        <GridList :items="achievementsInfo" class="my-4" name-class="!text-2xl text-primary-600" />
         <div v-if="adminMode">
           <AddButton title="Add a new achievement" class="my-4" @click="openAddAchievementDialogOpen" />
           <DialogDefault
@@ -112,6 +113,17 @@ const { data: department } = await useFetch(`/api/departments/${departmentId}`)
 const teachers = ref(department.value?.teachers?.reverse()?.map((teacher) => { return { name: `${teacher.lastName} ${teacher.firstName}`, description: teacher.username, link: `/teacher/${teacher._id}` } }))
 
 const { data: achievementsOfDepartment, error: achievementsError } = await useFetch(`/api/departments/${departmentId}/achievements`)
+
+const achievementsInfo = ref([
+  {
+    description: 'Department ScholarSphere score',
+    name: department.value?.score || 0
+  },
+  {
+    description: 'Achievements',
+    name: achievementsOfDepartment.value?.length || 0
+  }
+])
 
 async function handleAddTeachers (data) {
   try {
