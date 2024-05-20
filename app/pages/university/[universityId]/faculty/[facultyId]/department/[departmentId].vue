@@ -55,7 +55,7 @@
     </div>
     <div v-show="currentTab === 2">
       <div v-if="!achievementsError">
-        <GridList :items="achievementsInfo" class="my-4" name-class="!text-2xl text-primary-600" />
+        <GridList :items="achievementsInfo" class="my-4" name-class="!text-2xl text-primary-600" right-text-class="text-xl text-primary-600" />
         <div v-if="adminMode">
           <AddButton title="Add a new achievement" class="my-4" @click="openAddAchievementDialogOpen" />
           <DialogDefault
@@ -78,7 +78,7 @@
             }
           })"
           :items="achievementsOfDepartment"
-          @delete-event="id => handleDelete(id)"
+          @delete-event="id => handleDeleteAchievement(id)"
         >
           <template #update-form="scope">
             <AchievementUpdateForm :item="scope.item" @on-update="achievement => handleUpdateAchievement(achievement)" />
@@ -110,9 +110,11 @@ const adminMode = isInAdministration(user.value, [universityId as string, facult
 
 const { data: department } = await useFetch(`/api/departments/${departmentId}`)
 
-const teachers = ref(department.value?.teachers?.reverse()?.map((teacher) => { return { name: `${teacher.lastName} ${teacher.firstName}`, description: teacher.username, link: `/teacher/${teacher._id}` } }))
+const { data: res, error: resError } = await useFetch(`/api/departments/${departmentId}/with-scores`)
+const achievementsOfDepartment = res.value?.achievements
+const teacherScores = res.value?.teacherScores
 
-const { data: achievementsOfDepartment, error: achievementsError } = await useFetch(`/api/departments/${departmentId}/achievements`)
+const teachers = ref(department.value?.teachers?.reverse()?.map((teacher) => { return { name: `${teacher.lastName} ${teacher.firstName}`, description: teacher.username, rightText: `${teacherScores[teacher._id] || 0}`, link: `/teacher/${teacher._id}` } }))
 
 const achievementsInfo = ref([
   {
@@ -158,6 +160,29 @@ function handleUpdateAchievement (achievement) {
     achievementsOfDepartment.value?.splice(index, 1, achievement)
   } else {
     console.error('Error: achievement not found.')
+  }
+}
+
+async function handleDeleteAchievement (id: string) {
+  if (!achievementsOfDepartment.value) {
+    return
+  }
+  const alteredAchievementIndex = achievementsOfDepartment.value?.findIndex(achievement => achievement._id === id)
+
+  if (alteredAchievementIndex === -1) {
+    return
+  }
+
+  try {
+    if (achievementsOfDepartment.value?.[alteredAchievementIndex]?.createdBy === user.value.id || adminMode.value) {
+      await deleteAchievement(id)
+    } else {
+      await removeAchievementAuthor(achievementsOfDepartment.value?.[alteredAchievementIndex]._id, user.value.id)
+    }
+    achievementsOfDepartment.value?.splice(alteredAchievementIndex, 1)
+    toast.success('Achievement deleted successfully')
+  } catch (e) {
+    toast.error(e.statusMessage)
   }
 }
 </script>
