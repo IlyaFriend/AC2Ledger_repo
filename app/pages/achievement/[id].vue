@@ -1,6 +1,6 @@
 <template>
   <div class="px-12 py-8 space-y-6">
-    <DescriptionList :title="achievementInfoList.title" :item="omit(achievementInfoList, ['users'])" />
+    <DescriptionList :title="achievementInfoList.title" :item="omit(achievementInfoList, ['users', 'score', 'department_id'])" />
     <div v-if="achievementInfoList.users.length">
       <h3 class="text-xl font-semibold">
         Authors

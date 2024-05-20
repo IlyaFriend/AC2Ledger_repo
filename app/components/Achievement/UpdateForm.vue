@@ -28,6 +28,7 @@ const fieldsArray = []
 nonPublicFields.forEach((field) => {
   delete achievementFields[field]
 })
+delete achievementFields?.score
 
 for (const [key, value] of Object.entries(achievementFields)) {
   if (key === 'details') {
