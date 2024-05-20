@@ -15,7 +15,13 @@ export default defineEventHandler(async (event) => {
         path: 'teachers',
         select: keysToStringExclude('_id')
       })
-    console.log('fetched department:', fetchedDepartment, '\n')
+    if (!fetchedDepartment) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Department not found'
+      })
+    }
+    fetchedDepartment.score = Number(fetchedDepartment.score)?.toFixed(2)
     return fetchedDepartment
   } catch (err) {
     console.log(err)

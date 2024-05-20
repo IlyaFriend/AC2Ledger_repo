@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'User with given id was not found.'
       })
     }
+    user.score = Number(user.score)?.toFixed(2)
     const userUniversities = await getUserUniversities(id)
 
     const result = { ...user, userUniversities }
