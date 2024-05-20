@@ -43,6 +43,11 @@ const SchemaMain = new Schema({
     type: Number,
     required: true,
     default: () => new Date().getFullYear()
+  },
+  score: {
+    type: Number,
+    required: true,
+    default: 0
   }
 })
 
