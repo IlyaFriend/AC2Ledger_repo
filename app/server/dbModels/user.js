@@ -27,12 +27,7 @@ const SchemaMain = new Schema({
   score: {
     type: Number,
     default: 0,
-    validate: {
-      validator: function (v) {
-        return v >= 0
-      },
-      message: props => `${props.value} must be a non-negative number!`
-    }
+    immutable: true
   }
 })
 
