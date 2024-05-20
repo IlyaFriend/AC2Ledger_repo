@@ -4,12 +4,17 @@
       <div class="min-w-0 flex-1">
         <NuxtLink :to="item?.link || ''" class="focus:outline-none">
           <span class="absolute inset-0" aria-hidden="true" />
-          <p class="text-sm font-medium text-gray-900" :class="nameClass">
-            {{ item?.name }}
-          </p>
-          <p class="truncate text-sm text-gray-500" :class="descriptionClass">
-            {{ item?.description }}
-          </p>
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-900" :class="nameClass">
+                {{ item?.name }}
+              </p>
+              <p class="truncate text-sm text-gray-500" :class="descriptionClass">
+                {{ item?.description }}
+              </p>
+            </div>
+            <div><span :class="rightTextClass">{{ item?.rightText }}</span></div>
+          </div>
         </NuxtLink>
       </div>
     </div>
@@ -27,6 +32,10 @@ defineProps({
     default: ''
   },
   descriptionClass: {
+    type: String,
+    default: ''
+  },
+  rightTextClass: {
     type: String,
     default: ''
   }
