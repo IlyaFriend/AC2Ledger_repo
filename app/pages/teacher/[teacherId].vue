@@ -43,7 +43,7 @@
               }
             })"
             :items="achievements"
-            @delete-event="id => handleDelete(id)"
+            @delete-event="id => handleDeleteAchievement(id)"
           >
             <template #update-form="scope">
               <AchievementUpdateForm :item="scope.item" @on-update="achievement => handleUpdateAchievement(achievement)" />
@@ -122,7 +122,7 @@ const teacherInfo = ref([
   }
 ])
 
-async function handleDelete (id: string) {
+async function handleDeleteAchievement (id: string) {
   if (!achievements.value) {
     return
   }
