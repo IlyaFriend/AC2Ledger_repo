@@ -12,6 +12,11 @@
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
 
+const { status } = useAuth()
+if (status.value === 'unauthenticated') {
+  throw createError({ statusCode: 401, message: 'You must be authenticated to access this page.' })
+}
+
 async function registryUniversity (formValue) {
   try {
     await createUniversity(formValue)
