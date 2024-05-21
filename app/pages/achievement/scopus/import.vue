@@ -105,7 +105,10 @@ import { ref, useAuth, useFetch } from '#imports'
 const tabs = [{ name: 'results' }, { name: 'existing' }]
 const currentTab = ref(0)
 
-const { data: user } = useAuth()
+const { data: user, status } = useAuth()
+if (status.value === 'unauthenticated') {
+  throw createError({ statusCode: 401, message: 'You must be authenticated to access this page.' })
+}
 const scopusId = user?.value?.scopus_id
 
 const results = ref(scopusId ? await useFetch(`/api/scopus/author/${scopusId}`) : null)
