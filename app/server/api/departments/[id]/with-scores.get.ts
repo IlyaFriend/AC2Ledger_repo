@@ -2,9 +2,7 @@ import { defineEventHandler } from 'h3'
 import { Achievement, Department } from '~/server/dbModels'
 
 interface TeacherAchievements {
-  [teacherId: string]: {
-    totalScore: number;
-  };
+  [teacherId: string]: number
 }
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +24,7 @@ export default defineEventHandler(async (event) => {
             teacherScores[userId] = 0
           }
 
-          teacherScores[userId] += achievement.score.toFixed(2)
+          teacherScores[userId] += +achievement.score?.toFixed(2)
         }
       })
     })
