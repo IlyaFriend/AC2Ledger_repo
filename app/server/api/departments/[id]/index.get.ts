@@ -21,8 +21,12 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Department not found'
       })
     }
-    fetchedDepartment.score = Number(fetchedDepartment.score)?.toFixed(2)
-    return fetchedDepartment
+    const fixedScore = Number(fetchedDepartment.score)?.toFixed(2)
+    const departmentWithFixedScore = {
+      ...fetchedDepartment.toObject(), // Convert Mongoose document to plain object
+      score: fixedScore
+    }
+    return departmentWithFixedScore
   } catch (err) {
     console.log(err)
     throw error
