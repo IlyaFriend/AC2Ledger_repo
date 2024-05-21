@@ -17,6 +17,9 @@
         <NuxtLink to="/teacher/search" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
           <Icon name="material-symbols-light:search" size="1.5em" />Search for a teacher
         </NuxtLink>
+        <NuxtLink to="/university/search" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
+          <Icon name="material-symbols-light:search" size="1.5em" />Search for a university
+        </NuxtLink>
         <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
           {{ item.name }}
         </NuxtLink>
