@@ -1,4 +1,7 @@
 export default function (user: any, entityIds: string[] | string): boolean {
+  if (!user) {
+    return false
+  }
   if (user.role === 'admin') {
     return true
   }
