@@ -106,7 +106,7 @@ const achievementTypes = {
   }
 }
 
-function getCoefficient(achievement) {
+function getYearCoefficient(achievement) {
   const category = achievementTypes[achievement.type].category;
 
   // Categories exempt from coefficient reduction
@@ -136,14 +136,28 @@ function getCoefficient(achievement) {
   return coefficient;
 }
 
+function getCitationsCoefficient(achievement) {
+  const category = achievementTypes[achievement.type].category
+  let coefficient = 1
+  if (category === 'Publications' && achievement?.details?.Citations) {
+    coefficient += Math.floor(Number(achievement?.details?.Citations) / 5) / 20
+  }
+  return Math.min(1.5, coefficient)
+}
+
 function getScore(achievement) {
-  return (achievementTypes[achievement.type]?.score * getCoefficient(achievement)).toFixed(2)
+  const coefficients = [
+    getCitationsCoefficient(achievement),
+    getYearCoefficient(achievement)
+  ]
+  const coefficient = coefficients.reduce((accumulator, currentValue) => accumulator + currentValue, 0) - coefficients.length + 1
+  return achievementTypes[achievement.type]?.score * coefficient
 }
 
 
 exports = async function (changeEvent) {
 
-  // Get collections
+  // Get the MongoDB service
   const db = context.services.get('Cluster0')
   const scholarSphereDB = db.db('scholarSphere')
   const usersCollection = scholarSphereDB.collection('users')
@@ -163,6 +177,13 @@ exports = async function (changeEvent) {
         { $set: { score: score } }
       )
 
+      const userUpdates = achievement.users.map(user => user.toString())
+        .map(async (userId) => {
+          await usersCollection.updateOne(
+            { _id: new BSON.ObjectId(userId) },
+            { $inc: { score: score } }
+          )
+        })
       await Promise.all(userUpdates)
 
       if (achievement.department_id) {
