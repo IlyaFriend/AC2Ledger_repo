@@ -40,7 +40,7 @@ export default defineNuxtConfig({
       }
     },
     globalAppMiddleware: {
-      isEnabled: true
+      isEnabled: false
     }
   },
   formkit: {
