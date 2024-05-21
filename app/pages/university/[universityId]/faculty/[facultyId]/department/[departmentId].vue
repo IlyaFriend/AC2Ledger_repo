@@ -14,7 +14,7 @@
 
       <div v-else>
         <StackedInfoList
-          :items-displayed="Object.entries(department)?.map(([key, value]) => {
+          :items-displayed="Object.entries(department)?.filter(([key, _]) => !['score'].includes(key)).map(([key, value]) => {
             return {
               id: key,
               title: key,
@@ -110,7 +110,7 @@ const adminMode = isInAdministration(user.value, [universityId as string, facult
 
 const { data: department } = await useFetch(`/api/departments/${departmentId}`)
 
-const { data: res, error: resError } = await useFetch(`/api/departments/${departmentId}/with-scores`)
+const { data: res, error: achievementsError } = await useFetch(`/api/departments/${departmentId}/with-scores`)
 const achievementsOfDepartment = res.value?.achievements
 const teacherScores = res.value?.teacherScores
 
@@ -123,7 +123,7 @@ const achievementsInfo = ref([
   },
   {
     description: 'Achievements',
-    name: achievementsOfDepartment.value?.length || 0
+    name: achievementsOfDepartment?.length || 0
   }
 ])
 
@@ -174,10 +174,10 @@ async function handleDeleteAchievement (id: string) {
   }
 
   try {
-    if (achievementsOfDepartment.value?.[alteredAchievementIndex]?.createdBy === user.value.id || adminMode.value) {
+    if (achievementsOfDepartment.value?.[alteredAchievementIndex]?.createdBy === user.value?.id || adminMode.value) {
       await deleteAchievement(id)
     } else {
-      await removeAchievementAuthor(achievementsOfDepartment.value?.[alteredAchievementIndex]._id, user.value.id)
+      await removeAchievementAuthor(achievementsOfDepartment.value?.[alteredAchievementIndex]._id, user.value?.id)
     }
     achievementsOfDepartment.value?.splice(alteredAchievementIndex, 1)
     toast.success('Achievement deleted successfully')

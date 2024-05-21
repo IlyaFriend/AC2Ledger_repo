@@ -90,10 +90,10 @@ const { teacherId } = route.params
 const { data: teacher } = await useFetch(`/api/users/${teacherId}`)
 
 const authorMode = computed(() => {
-  return user.value.id === teacherId
+  return user.value?.id === teacherId
 })
 const adminMode = computed(() => {
-  return user.value.role === 'admin'
+  return user.value?.role === 'admin'
 })
 
 const menuTabs = [
@@ -133,10 +133,10 @@ async function handleDeleteAchievement (id: string) {
   }
 
   try {
-    if (achievements.value?.[alteredAchievementIndex]?.createdBy === user.value.id || adminMode.value) {
+    if (achievements.value?.[alteredAchievementIndex]?.createdBy === user.value?.id || adminMode.value) {
       await deleteAchievement(id)
     } else {
-      await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value.id)
+      await removeAchievementAuthor(achievements.value?.[alteredAchievementIndex]._id, user.value?.id)
     }
     achievements.value?.splice(alteredAchievementIndex, 1)
     toast.success('Achievement deleted successfully')
