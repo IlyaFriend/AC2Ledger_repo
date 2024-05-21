@@ -3,13 +3,13 @@
     <li v-for="item in itemsDisplayed" :key="item.id" class="flex justify-between gap-x-6 py-5">
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
-          <NuxtLink v-if="item.link" :to="item.link" class="text-sm font-semibold leading-6 text-gray-900 hover:underline">
+          <NuxtLink v-if="item.link" :to="item.link" class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50 hover:underline">
             {{ item.title }}
           </NuxtLink>
-          <p v-else class="text-sm font-semibold leading-6 text-gray-900 cursor-default hover:underline">
+          <p v-else class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50 cursor-default hover:underline">
             {{ item.title }}
           </p>
-          <p class="mt-1 flex text-xs leading-5 text-gray-500">
+          <p class="mt-1 flex text-xs leading-5 text-gray-500 dark:text-gray-400">
             {{ item.subtitle }}
           </p>
         </div>
@@ -17,12 +17,12 @@
       <div class="flex shrink-0 items-center gap-x-6">
         <slot name="right-menu" :item="item" />
         <div class="hidden sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm leading-6 text-gray-900">
+          <p class="text-sm leading-6 text-gray-900 dark:text-gray-50">
             {{ item.secondarySubtitle }}
           </p>
         </div>
         <Menu as="div" class="relative flex-none">
-          <MenuButton v-if="updateAction || deleteAction" class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+          <MenuButton v-if="updateAction || deleteAction" class="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900 dark:hover:text-primary-300 dark:text-gray-50">
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="h-5 w-5" aria-hidden="true" />
           </MenuButton>
@@ -34,10 +34,10 @@
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95"
           >
-            <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+            <MenuItems class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
               <MenuItem v-if="updateAction" v-slot="{ active }">
                 <button
-                  :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
+                  :class="[active ? 'bg-gray-50 dark:bg-gray-700' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900 dark:text-gray-50']"
                   @click="handleUpdateItem(item.id)"
                 >
                   Update
@@ -45,7 +45,7 @@
               </MenuItem>
               <MenuItem v-if="deleteAction" v-slot="{ active }">
                 <button
-                  :class="[active ? 'bg-gray-50' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900']"
+                  :class="[active ? 'bg-gray-50 dark:bg-gray-700' : '', 'w-full block px-3 py-1 text-sm leading-6 text-gray-900 dark:text-gray-50']"
                   @click="handleDeleteItem(item.id)"
                 >
                   Delete

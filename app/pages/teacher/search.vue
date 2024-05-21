@@ -1,6 +1,6 @@
 <template>
   <div class="p-12">
-    <h1 class="text-2xl font-semibold my-4">
+    <h1 class="text-2xl font-semibold my-4 dark:text-gray-50">
       Search for a teacher
     </h1>
     <div>

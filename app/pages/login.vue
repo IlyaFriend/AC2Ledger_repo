@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center justify-center h-screen">
+  <div class="flex items-center justify-center h-screen dark:bg-gray-900">
     <div>
       <div class="relative mt-12 sm:mt-16">
-        <h1 class="text-2xl font-medium tracking-tight text-center text-gray-900">
+        <h1 class="text-2xl font-medium tracking-tight text-center text-gray-900 dark:text-white">
           Sign in to account
         </h1>
-        <p class="mt-3 text-lg text-center text-gray-600">
+        <p class="mt-3 text-lg text-center text-gray-600 dark:text-gray-400">
           Don’t have an account?
           <NuxtLink to="/signup" class="text-cyan-600">
             Sign up
@@ -13,7 +13,7 @@
         </p>
       </div>
       <div
-        class="flex-auto px-4 py-10 mt-10 -mx-4 bg-white shadow-2xl shadow-gray-900/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24"
+        class="flex-auto px-4 py-10 mt-10 -mx-4 bg-white rounded shadow-2xl shadow-gray-900/10 sm:mx-0 sm:flex-none sm:rounded-5xl sm:p-24"
       >
         <FormKit type="form" :actions="false" @submit="login">
           <div class="grid grid-cols-2 gap-6 max-[420px]:grid-cols-1">
@@ -64,6 +64,6 @@ function login (formData) {
     password: formData.password
   },
   { callbackUrl: '/' }
-  ).catch((err) => toast.error(err.statusMessage))
+  ).catch(err => toast.error(err.statusMessage))
 }
 </script>

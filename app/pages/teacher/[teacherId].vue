@@ -15,7 +15,7 @@
           <GridList :items="teacherInfo" class="my-4" />
           <div v-if="authorMode">
             <NuxtLink
-              class="flex justify-center w-full bg-[#edf1f4] rounded-xl py-2 hover:underline hover:text-primary-500 cursor-pointer"
+              class="flex justify-center w-full bg-[#edf1f4] dark:bg-primary-700 dark:text-gray-50 rounded-xl py-2 hover:underline hover:text-primary-500 dark:hover:text-primary-300 cursor-pointer"
               href="/achievement/scopus/import"
             >
               <span class="">

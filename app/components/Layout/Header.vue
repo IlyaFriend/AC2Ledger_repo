@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white shadow-md" :class="{ 'bg-emerald-300': user?.role === 'admin'}">
+  <header class="bg-white shadow-md dark:bg-primary-900" :class="{ 'bg-emerald-300': user?.role === 'admin'}">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <NuxtLink to="#" class="-m-1.5 p-1.5">
@@ -14,18 +14,18 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <NuxtLink to="/teacher/search" class="text-sm leading-6 text-gray-900 hover:text-primary-500">
+        <NuxtLink to="/teacher/search" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
           <Icon name="material-symbols-light:search" size="1.5em" />Search for a teacher
         </NuxtLink>
-        <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" class="text-sm leading-6 text-gray-900 hover:text-primary-500">
+        <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
           {{ item.name }}
         </NuxtLink>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <button v-if="status === 'authenticated'" class="text-sm leading-6 text-gray-900 hover:text-primary-500" @click="handleSignout">
+        <button v-if="status === 'authenticated'" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500" @click="handleSignout">
           Log out <span aria-hidden="true">&rarr;</span>
         </button>
-        <NuxtLink v-else to="/login" class="text-sm leading-6 text-gray-900 hover:text-primary-500">
+        <NuxtLink v-else to="/login" class="text-sm leading-6 text-gray-900 dark:text-gray-50 hover:text-primary-500">
           Log in <span aria-hidden="true">&rarr;</span>
         </NuxtLink>
       </div>
@@ -46,18 +46,18 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/10">
             <div class="space-y-2 py-6">
-              <NuxtLink to="/teacher/search" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">
+              <NuxtLink to="/teacher/search" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 dark:text-gray-50 hover:bg-gray-50">
                 Teacher Search<Icon name="material-symbols-light:search" size="1.5em" />
               </NuxtLink>
-              <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 hover:bg-gray-50">
+              <NuxtLink v-for="item in navigation" :key="item.name" :to="item.href" class="-mx-3 block rounded-lg px-3 py-2 text-base leading-7 text-gray-900 dark:text-gray-50 hover:bg-gray-50">
                 {{ item.name }}
               </NuxtLink>
             </div>
             <div class="py-6">
-              <button v-if="status === 'authenticated'" class="-mx-3 block rounded-lg px-3 py-2.5 text-base leading-7 text-gray-900 hover:bg-gray-50" @click="handleSignout">
+              <button v-if="status === 'authenticated'" class="-mx-3 block rounded-lg px-3 py-2.5 text-base leading-7 text-gray-900 dark:text-gray-50 hover:bg-gray-50" @click="handleSignout">
                 Log out <span aria-hidden="true">&rarr;</span>
               </button>
-              <NuxtLink v-else to="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base leading-7 text-gray-900 hover:bg-gray-50">
+              <NuxtLink v-else to="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base leading-7 text-gray-900 dark:text-gray-50 hover:bg-gray-50">
                 Log in
               </NuxtLink>
             </div>

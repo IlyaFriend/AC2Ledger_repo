@@ -6,7 +6,7 @@
           404
         </slot>
       </p>
-      <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+      <h1 class="mt-4 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-5xl">
         <slot name="page-title">
           Page not found
         </slot>
