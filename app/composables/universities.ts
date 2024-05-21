@@ -35,3 +35,20 @@ export const searchUniversitiesByIds = async (values: Array<any>): Promise<typeo
     throw error
   }
 }
+
+export const searchUniversities = async (searchParams) => {
+  try {
+    const filteredSearchParams = Object.fromEntries(
+      Object.entries(searchParams).filter(([_, value]) => value)
+    )
+
+    const url = `/api/universities/search?${new URLSearchParams(filteredSearchParams)}`
+
+    const response = await $fetch(url)
+
+    return response
+  } catch (error) {
+    console.error('Error searching for universities:', error)
+    throw error
+  }
+}
