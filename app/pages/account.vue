@@ -116,8 +116,11 @@ import { toast } from 'vue-sonner'
 import { useAuth } from '#imports'
 import { changePassword, updateUser } from '~/composables/users'
 
-const { data: user, refresh } = useAuth()
+const { data: user, refresh, status } = useAuth()
 
+if (status.value === 'unauthenticated') {
+  throw createError({ statusCode: 401, message: 'You must be authenticated to access this page.' })
+}
 async function updatePersonalInfo (formData: any) {
   await updateUser(user?.value?.id, formData)
   toast.success('Information has been updated')
