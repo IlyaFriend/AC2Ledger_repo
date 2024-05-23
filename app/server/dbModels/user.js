@@ -8,7 +8,8 @@ const SchemaMain = new Schema({
     type: String,
     enum: ['user', 'admin'],
     required: true,
-    default: 'user'
+    default: 'user',
+    immutable: true
   },
   username: { type: String, unique: true, required: true },
   password: { type: String, bcrypt: true, required: true },
@@ -21,8 +22,6 @@ const SchemaMain = new Schema({
     required: true
   },
   scopus_id: String,
-  patronymic: String,
-  courses: [String],
   externalProfiles: Object,
   score: {
     type: Number,

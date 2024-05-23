@@ -4,6 +4,14 @@ const activeMiddlewarePaths = [
   {
     path: '/api/achievements/',
     method: 'DELETE'
+  },
+  {
+    path: '/api/achievements/',
+    method: 'POST'
+  },
+  {
+    path: '/api/achievements/',
+    method: 'PUT'
   }
 ]
 

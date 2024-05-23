@@ -55,9 +55,6 @@
         </div>
       </div>
       <div v-show="+currentTab === 1">
-        courses
-      </div>
-      <div v-show="+currentTab === 2">
         <StackedInfoList
           :items-displayed="teacher.userUniversities?.map((university) => {
             return {
@@ -68,9 +65,6 @@
             }
           })"
         />
-      </div>
-      <div v-show="+currentTab === 3">
-        contact
       </div>
     </div>
   </div>
@@ -98,9 +92,7 @@ const adminMode = computed(() => {
 
 const menuTabs = [
   { name: 'achievements', href: '#', current: true },
-  { name: 'courses', href: '#', current: false },
-  { name: 'universities', href: '#', current: false },
-  { name: 'contact', href: '#', current: false }
+  { name: 'universities', href: '#', current: false }
 ]
 
 const addAchievementDialog = ref(null)

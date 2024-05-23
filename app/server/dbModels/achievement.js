@@ -13,7 +13,6 @@ const SchemaMain = new Schema({
     required: true,
     default: achievementTypeNames[achievementTypeNames.length - 1]
   },
-  description: String,
   createdAt: {
     type: Date,
     immutable: true,
