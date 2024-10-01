@@ -2,8 +2,8 @@ import { createError, H3Event } from 'h3'
 import { verify } from 'jsonwebtoken'
 import { SECRET } from '~/server/api/auth/login.post'
 
-const blacklist = ['/api/auth/', '/login'] // routes that need this middleware
-const whitelist = ['/api/scopus/']
+const blacklist = ['/api/auth/', '/api/users/', '/login', '/signup']
+const whitelist = ['/api/scopus/'] // routes that need this middleware
 
 const ensureAuth = (event: H3Event) => {
   const tokenParts = event?.req?.headers?.cookie.split(';')
