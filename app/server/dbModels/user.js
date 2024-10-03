@@ -27,7 +27,8 @@ const SchemaMain = new Schema({
     type: Number,
     default: 0,
     immutable: true
-  }
+  },
+  publicKey: String,
 })
 
 SchemaMain.methods.verifyPasswordSync = function (password) {
