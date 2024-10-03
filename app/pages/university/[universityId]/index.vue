@@ -5,7 +5,10 @@
     </div>
     <!-- main university information -->
     <div v-show="currentTab === 0">
-      <div v-if="adminMode">
+      <div v-if="adminMode" class='space-y-2'>
+        <div v-if="user?.role !== 'admin'">
+          <ConnectWallet />
+        </div>
         <h1 class="text-2xl font-semibold">
           Update university information
         </h1>
