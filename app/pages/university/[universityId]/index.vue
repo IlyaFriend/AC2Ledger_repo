@@ -6,13 +6,13 @@
     <!-- main university information -->
     <div v-show="currentTab === 0">
       <div v-if="adminMode" class='space-y-2'>
-        <div v-if="user?.role !== 'admin'">
-          <ConnectWallet />
-        </div>
         <h1 class="text-2xl font-semibold">
           Update university information
         </h1>
         <UniversityForm v-model="university" submit-label="Update" @submit="v => handleUpdateUniversity(v)" />
+        <div v-if="user?.role !== 'admin'">
+          <ConnectWallet />
+        </div>
       </div>
       <div v-else>
         <StackedInfoList
