@@ -9,7 +9,7 @@
         <FormKit name="shortName" placeholder="University Short Name" inner-class="$remove:rounded" outer-class="col-span-1" />
       </div>
       <div>
-        <FormKit type="submit" input-class="$remove:rounded w-full flex justify-center rounded-r" outer-class="w-[42px]">
+        <FormKit type="submit" input-class="$remove:rounded w-full flex justify-center rounded-r" outer-class="w-[128px]">
           <MagnifyingGlassIcon class="min-w-4 w-4" />
         </FormKit>
       </div>
