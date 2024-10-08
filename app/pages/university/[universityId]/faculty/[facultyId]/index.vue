@@ -10,6 +10,9 @@
           Update faculty information
         </h1>
         <FacultyForm v-model="faculty" submit-label="Update" @submit="v => handleUpdateFaculty(v)" />
+        <div v-if="user?.role !== 'admin'">
+          <ConnectWallet />
+        </div>
       </div>
       <div v-else>
         <StackedInfoList
@@ -47,7 +50,7 @@
         title="Departments"
         subtitle="These are the departments of the faculty"
         add-button-label="Add a new departments"
-        dialog-title="Create a departments"
+        dialog-title="Create a department"
       >
         <DepartmentActionForm @on-submit="data => handleCreateDepartment(data)" />
       </ContentSection>
@@ -79,6 +82,8 @@ const departments = ref(faculty.value?.departments?.reverse()?.map((department) 
 
 async function handleCreateDepartment (faculty) {
   try {
+  console.log('faculty', faculty)
+
     const createdDepartment = await createDepartment(universityId as string, facultyId as string, faculty)
     departments.value.unshift({ ...createdDepartment, link: `/university/${universityId}/faculty/${facultyId}/department/${createdDepartment._id}` })
     toast.success('New faculty has been created')
