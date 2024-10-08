@@ -30,3 +30,13 @@ watch(connectedWallet, async (currentValue) => {
 
 })
 </script>
+
+<style>
+.swv-button-trigger {
+  background-color: #0891b2 !important;
+}
+
+.swv-button-trigger:hover {
+  background-color: #06b6d4 !important;
+}
+</style>
