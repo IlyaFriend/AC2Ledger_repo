@@ -121,7 +121,7 @@ const teachers = ref(department.value?.teachers?.reverse()?.map((teacher) => { r
 
 const achievementsInfo = ref([
   {
-    description: 'Department ScholarSphere score',
+    description: 'Department AC2Ledger score',
     name: department.value?.score || 0
   },
   {

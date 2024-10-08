@@ -105,7 +105,7 @@ const { data: achievements, error: errorAchievements } = await useFetch(`/api/ac
 
 const teacherInfo = ref([
   {
-    description: 'Personal ScholarSphere Score',
+    description: 'Personal AC2Ledger Score',
     name: teacher.value?.score || 0
   },
   {

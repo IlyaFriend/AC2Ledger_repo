@@ -3,8 +3,7 @@
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
       <div class="flex lg:flex-1">
         <NuxtLink to="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">ScholarSphere</span>
-          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=600" alt="ScholarSphere">
+          <span class="sr-only">AC2Ledger</span>
         </NuxtLink>
       </div>
       <div class="flex lg:hidden">
@@ -38,8 +37,7 @@
       <DialogPanel class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div class="flex items-center justify-between">
           <NuxtLink to="#" class="-m-1.5 p-1.5">
-            <span class="sr-only">ScholarSphere</span>
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=600" alt="ScholarSphere">
+            <span class="sr-only">AC2Ledger</span>
           </NuxtLink>
           <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700 hover:text-primary-500" @click="mobileMenuOpen = false">
             <span class="sr-only">Close menu</span>

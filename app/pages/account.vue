@@ -45,7 +45,7 @@
           Scopus User Id
         </template>
         <template #subtitle>
-          Add your Scopus Id. Thus, you can import your Scopus documents as achievements to ScholarSphere!
+          Add your Scopus Id. Thus, you can import your Scopus documents as achievements to AC2Ledger!
         </template>
 
         <FormKit

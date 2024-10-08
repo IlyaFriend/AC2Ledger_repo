@@ -159,10 +159,10 @@ exports = async function (changeEvent) {
 
   // Get the MongoDB service
   const db = context.services.get('Cluster0')
-  const scholarSphereDB = db.db('scholarSphere')
-  const usersCollection = scholarSphereDB.collection('users')
-  const departmentsCollection = scholarSphereDB.collection('departments')
-  const achievementsCollection = scholarSphereDB.collection('achievements')
+  const AC2LedgerDB = db.db('AC2Ledger')
+  const usersCollection = AC2LedgerDB.collection('users')
+  const departmentsCollection = AC2LedgerDB.collection('departments')
+  const achievementsCollection = AC2LedgerDB.collection('achievements')
 
   try {
     if (changeEvent.operationType === 'insert') {

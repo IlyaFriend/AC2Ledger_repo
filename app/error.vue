@@ -15,7 +15,7 @@
         >
           Go back home
         </NuxtLink>
-        <NuxtLink href="mailto:scholarSphere@gmail.com" class="text-sm font-semibold text-gray-900 dark:text-white">
+        <NuxtLink href="mailto:AC2Ledger@gmail.com" class="text-sm font-semibold text-gray-900 dark:text-white">
           Contact support <span aria-hidden="true">&rarr;</span>
         </NuxtLink>
       </div>

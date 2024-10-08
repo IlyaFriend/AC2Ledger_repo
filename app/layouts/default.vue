@@ -6,7 +6,7 @@
           <NuxtLink to="/" class="w-full h-full">
             <NuxtImg
               src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=500"
-              alt="ScholarSphere"
+              alt="AC2Ledger"
               class="max-w-none"
               width="37"
             />
