@@ -39,16 +39,16 @@
       </div>
 
       <!-- Feature section -->
-      <div class="mx-auto mb-32 max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto mt-16 mb-48 max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:text-center">
-          <h2 class="text-base font-semibold leading-7 text-primary-600">
+          <h2 class="text-lg font-semibold leading-7 text-primary-600">
             Enhance Your Academic Portfolio
           </h2>
           <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Effortlessly manage and display university, faculty, and department achievements with our intuitive platform.
           </p>
         </div>
-        <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+        <div class="mx-auto mt-24 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
           <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
             <div v-for="feature in secondaryFeatures" :key="feature.name" class="flex flex-col">
               <dt class="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
