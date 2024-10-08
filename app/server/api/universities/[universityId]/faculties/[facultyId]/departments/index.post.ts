@@ -7,7 +7,8 @@ interface IRequestBody {
 export default defineEventHandler(async (event) => {
   console.log('*** POST /api/departments/ ***')
   const { universityId, facultyId } = event.context.params
-  const { data: { department } } = await readBody<IRequestBody>(event)
+  const body = await readBody<IRequestBody>(event)
+  const department = body.data
   const user = event.context.user
 
   if (user && !await isInAdministration(user.id, universityId, facultyId) && !event.context.isAdmin) {
