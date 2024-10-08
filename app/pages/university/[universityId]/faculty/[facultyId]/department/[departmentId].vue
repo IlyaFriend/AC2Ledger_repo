@@ -10,6 +10,9 @@
           Update department information
         </h1>
         <FacultyForm v-model="department" submit-label="Update" @submit="v => handleUpdateDepartment(v)" />
+        <div v-if="user?.role !== 'admin'">
+          <ConnectWallet />
+        </div>
       </div>
 
       <div v-else>
